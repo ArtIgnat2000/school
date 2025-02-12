@@ -65,7 +65,10 @@ header h1 {
     text-align: center;
     margin-bottom: 20px;
 }
-
+.section p {
+    text-align: center;
+    
+}
 .course-list {
     display: flex;
     flex-wrap: wrap;
