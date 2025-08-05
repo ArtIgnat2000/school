@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Курсы программирования для детей | V-labs</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <div class="container">
+            <h1>Наши курсы</h1>
+            <p class="tagline">Выберите направление, которое понравится вашему ребёнку</p>
+            <a href="VLabs.html" class="btn secondary">← На главную</a>
+        </div>
+    </header>
+    
+    <section class="container courses-section">
+        <div class="course-cards">
+            <div class="course-card">
+                <div class="course-icon">🧩</div>
+                <h3>Scratch для начинающих</h3>
+                <ul class="course-features">
+                    <li>Создание первых игр за 4 занятия</li>
+                    <li>Развитие логического мышления</li>
+                    <li>Работа с анимацией и звуками</li>
+                </ul>
+                <div class="course-meta">
+                    <span>7-12 лет</span>
+                    <span>8 занятий</span>
+                </div>
+                <a href="#signup" class="btn small">Записаться</a>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-icon">🎮</div>
+                <h3>3D-моделирование в Studio 2.0</h3>
+                <ul class="course-features">
+                    <li>Основы трёхмерного моделирования</li>
+                    <li>Создание собственных миров</li>
+                    <li>Работа с LEGO-проектами</li>
+                </ul>
+                <div class="course-meta">
+                    <span>9-14 лет</span>
+                    <span>12 занятий</span>
+                </div>
+                <a href="#signup" class="btn small">Записаться</a>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-icon">💻</div>
+                <h3>Python для детей</h3>
+                <ul class="course-features">
+                    <li>Основы настоящего программирования</li>
+                    <li>Создание простых приложений</li>
+                    <li>Основы алгоритмического мышления</li>
+                </ul>
+                <div class="course-meta">
+                    <span>11-16 лет</span>
+                    <span>16 занятий</span>
+                </div>
+                <a href="#signup" class="btn small">Записаться</a>
+            </div>
+            
+            <div class="course-card">
+                <div class="course-icon">🤖</div>
+                <h3>Робототехника для начинающих</h3>
+                <ul class="course-features">
+                    <li>Основы электроники и механики</li>
+                    <li>Программирование роботов</li>
+                    <li>Участие в соревнованиях</li>
+                </ul>
+                <div class="course-meta">
+                    <span>10-15 лет</span>
+                    <span>10 занятий</span>
+                </div>
+                <a href="#signup" class="btn small">Записаться</a>
+            </div>
+        </div>
+    </section>
+    
+    <section class="container" id="signup">
+        <h2>Записаться на курс</h2>
+        <form class="signup-form">
+            <div class="form-group">
+                <select required>
+                    <option value="" disabled selected>Выберите курс</option>
+                    <option value="scratch">Scratch для начинающих</option>
+                    <option value="3d">3D-моделирование</option>
+                    <option value="python">Python для детей</option>
+                    <option value="robotics">Робототехника</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="text" placeholder="Имя ребёнка" required>
+            </div>
+            <div class="form-group">
+                <input type="number" placeholder="Возраст" required min="6" max="16">
+            </div>
+            <div class="form-group">
+                <input type="tel" placeholder="Телефон родителя" required>
+            </div>
+            <button type="submit" class="btn">Отправить заявку</button>
+        </form>
+    </section>
+    
+    <footer>
+        <div class="container">
+            <h3>V-labs — школа программирования для детей</h3>
+            <div class="social-links">
+                <a href="#" aria-label="WhatsApp">📱</a>
+                <a href="#" aria-label="ВКонтакте">📘</a>
+                <a href="#" aria-label="Instagram">📸</a>
+                <a href="courses.html" aria-label="Курсы">📚</a>
+            </div>
+            <p>© 2023 Все права защищены</p>
+        </div>
+    </footer>
+</body>
+</html>
