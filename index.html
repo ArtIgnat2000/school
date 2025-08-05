@@ -3,66 +3,105 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Vlabs: Школа программирования для детей</title>
+    <title>V-labs - Школа программирования для детей</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
     <header>
         <div class="container">
-            <img src="assets/лого.png" alt="Логотип школы" class="logo">
-            <h1>Школа программирования для детей</h1>
-            <nav>
-                <ul class="menu">
-                    <li><a href="#about">О нас</a></li>
-                    <li><a href="#courses">Курсы</a></li>
-                    <li><a href="#contact">Контакты</a></li>
-                </ul>
-            </nav>
+            <h1>V-labs</h1>
+            <p class="tagline">Школа программирования для детей: создаём игры, а не просто играем!</p>
+            <div class="header-buttons">
+                <a href="#signup" class="btn">Записаться на пробный урок</a>
+                <a href="courses.html" class="btn secondary">Наши курсы</a>
+            </div>
         </div>
     </header>
-
-    <section id="about" class="section">
-        <div class="container">
-            <h2>О нас</h2>
-            <p>Весело учим создавать игры, роботов и приложения. Учиться здесь - это как играть, только ещё круче!!</p>
+    
+    <section class="container">
+        <h2>Ваш ребёнок любит компьютер? Пусть проведёт время с пользой!</h2>
+        <p>В нашей школе он научится:</p>
+        
+        <div class="features">
+            <div class="feature-card">
+                <div class="feature-icon">🎮</div>
+                <h3>Создавать игры</h3>
+                <p>Собственные игры в Scratch 3.0 и Kodu — от простых аркад до сложных стратегий</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">🧩</div>
+                <h3>3D-моделирование</h3>
+                <p>Моделировать 3D-миры и LEGO-проекты в Studio 2.0 — воплощаем фантазии в реальность</p>
+            </div>
+            
+            <div class="feature-card">
+                <div class="feature-icon">📚</div>
+                <h3>Логика программирования</h3>
+                <p>Разбираться в логике кода — легко и весело через практические проекты</p>
+            </div>
         </div>
     </section>
-
-    <section id="courses" class="section">
+    
+    <section class="testimonials">
         <div class="container">
-            <h2>Наши курсы</h2>
-            <div class="course-list">
-                <div class="course-item">
-                    <h3>Scratch</h3>
-                    <p>Изучение основ программирования через визуальный конструктор.</p>
+            <h2>Почему у нас круто?</h2>
+            <div class="testimonial-grid">
+                <div class="testimonial">
+                    <p>"Учитель — такой же школьник, но уже опытный программист с реальными проектами. Он говорит с детьми на одном языке!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/boys/12.jpg" alt="Ученик">
+                        <span>Родитель Максима, 10 лет</span>
+                    </div>
                 </div>
-                <div class="course-item">
-                    <h3>Scratch Jr</h3>
-                    <p>Scratch Jr: увлекательное введение в мир программирования через создание интерактивных историй, игр и анимаций.</p>
+                
+                <div class="testimonial">
+                    <p>"Ребёнок не просто сидит в соцсетях — он творит, повышает самооценку и становится авторитетом среди друзей"</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/women/45.jpg" alt="Ученик">
+                        <span>Мама Алисы, 9 лет</span>
+                    </div>
                 </div>
-                <div class="course-item">
-                    <h3>Roblox Studio</h3>
-                    <p>Создание игр и развитие навыков программирования Lua.</p>
+                
+                <div class="testimonial">
+                    <p>"У нас интереснее, чем в играх — потому что здесь он сам создаёт свои миры!"</p>
+                    <div class="testimonial-author">
+                        <img src="https://randomuser.me/api/portraits/boys/33.jpg" alt="Ученик">
+                        <span>Папа Артёма, 11 лет</span>
+                    </div>
                 </div>
             </div>
         </div>
     </section>
-
-    <section id="contact" class="section">
-        <div class="container">
-            <h2>Контакты</h2>
-            <p>Телефон: +7 (XXX) XXX-XX-XX</p>
-            <p>Email: info@school.com</p>
-            <p>Адрес: г. Москва, ул. Программистов, д. 1</p>
-        </div>
+    
+    <section class="container" id="signup">
+        <h2>Подарите ребёнку навыки будущего</h2>
+        <p>Запишитесь сейчас — учиться можно и с увлечением!</p>
+        <form class="signup-form">
+            <div class="form-group">
+                <input type="text" placeholder="Имя ребёнка" required>
+            </div>
+            <div class="form-group">
+                <input type="number" placeholder="Возраст" required min="6" max="16">
+            </div>
+            <div class="form-group">
+                <input type="tel" placeholder="Телефон родителя" required>
+            </div>
+            <button type="submit" class="btn">Записаться на пробный урок</button>
+        </form>
     </section>
-
+    
     <footer>
         <div class="container">
-            <p>&copy; 2025 V labs. Все права защищены.</p>
+            <h3>V-labs — школа программирования для детей</h3>
+            <div class="social-links">
+                <a href="#" aria-label="WhatsApp">📱</a>
+                <a href="#" aria-label="ВКонтакте">📘</a>
+                <a href="#" aria-label="Instagram">📸</a>
+                <a href="courses.html" aria-label="Курсы">📚</a>
+            </div>
+            <p>© 2023 Все права защищены</p>
         </div>
     </footer>
-
-    <script src="script.js"></script>
 </body>
 </html>
