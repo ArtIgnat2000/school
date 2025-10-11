@@ -105,6 +105,8 @@ section {
     border-radius: 10px;
     box-shadow: 0 5px 15px rgba(0,0,0,0.05);
     transition: transform 0.3s ease;
+    display: flex;
+    flex-direction: column;
 }
 
 .feature-card:hover, .course-card:hover {
@@ -193,6 +195,13 @@ input, select {
     margin: 1.5rem 0;
     color: var(--primary);
     font-weight: bold;
+}
+
+.course-footer {
+    margin-top: auto;
+    display: flex;
+    justify-content: center;
+    padding-top: 1rem;
 }
 
 /* Футер */
