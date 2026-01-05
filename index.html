@@ -602,6 +602,75 @@
             gap: 10px;
             padding-top: 1rem;
         }
+
+        /* Modal styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0,0,0,0.5);
+        }
+
+        .modal-content {
+            background-color: white;
+            margin: 5% auto;
+            padding: 30px;
+            border-radius: 15px;
+            width: 80%;
+            max-width: 800px;
+            max-height: 80vh;
+            overflow-y: auto;
+            position: relative;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .close {
+            color: var(--gray);
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+            line-height: 1;
+        }
+
+        .close:hover {
+            color: var(--dark);
+        }
+
+        .modal h3 {
+            color: var(--primary);
+            margin: 20px 0 10px 0;
+        }
+
+        .modal ul {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .modal li {
+            margin-bottom: 8px;
+        }
+
+        .modal p {
+            margin: 10px 0;
+        }
+
+        .modal ol {
+            padding-left: 20px;
+            margin: 10px 0;
+        }
+
+        .modal ol li {
+            margin-bottom: 10px;
+        }
+
+        .modal ol li p {
+            margin: 5px 0;
+        }
     </style>
 </head>
 <body>
@@ -686,7 +755,7 @@
                     <h3>Scratch Jnr</h3>
                     <p>Программирование для самых маленьких (6-8 лет) с использованием визуальных блоков</p>
                     <div class="course-footer">
-                        <a href="#" class="btn btn-sm">Подробнее</a>
+                        <a href="#" class="btn btn-sm" onclick="openScratchJrModal()">Подробнее</a>
                         <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
                     </div>
                 </div>
@@ -771,6 +840,78 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
+    <!-- Modal for ScratchJr -->
+    <div id="scratchJrModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeModal()">&times;</span>
+            <h2>Scratch Jnr - Программа курса</h2>
+            <p>Курс разработан для детей 6-8 лет, которые только начинают свой путь в программировании. Все уроки построены в игровой форме с использованием визуальных блоков.</p>
+            
+            <h3>Урок 1. Знакомство со ScratchJr</h3>
+            <ul>
+                <li>Что такое ScratchJr и зачем он нужен</li>
+                <li>Обзор интерфейса: сцена, персонажи, блоки команд</li>
+                <li>Простое перемещение персонажа вправо/влево</li>
+                <li>Игровая практика: «Помоги коту дойти до миски с молоком!»</li>
+            </ul>
+
+            <h3>Урок 2. Циклы (повторение действий)</h3>
+            <ul>
+                <li>Знакомство с блоком «повторить»</li>
+                <li>Практика: персонаж танцует, рисует узор, ходит по квадрату</li>
+                <li>Игра: «Собери 3 звезды, повторяя путь»</li>
+                <li>Изучение остальных блоков из оранжевой вкладки</li>
+            </ul>
+
+            <h3>Урок 3. Внешний вид персонажа</h3>
+            <ul>
+                <li>Что такое внешний вид</li>
+                <li>Составление простой цепочки команд: привет → увеличение → уменьшение</li>
+                <li>Создание короткой анимации-истории</li>
+                <li>Игровая практика: Увеличение персонажа с помощью цикла (из урока 2)</li>
+            </ul>
+
+            <h3>Урок 4. События и запуск по кнопке</h3>
+            <ul>
+                <li>Блок «когда нажат флажок» и «когда коснуто»</li>
+                <li>Создание интерактивной сцены: персонаж реагирует на касание</li>
+                <li>Мини-проект: интерактивная открытка</li>
+            </ul>
+
+            <h3>Урок 5. Звуки и эмоции</h3>
+            <ul>
+                <li>Добавление звуков и голосов</li>
+                <li>Меняем выражение лица персонажа</li>
+                <li>Создание короткого диалога между двумя героями</li>
+                <li>Введение понятия «сообщения» между персонажами</li>
+            </ul>
+
+            <h3>Урок 6. Условия и выбор (упрощённо)</h3>
+            <ul>
+                <li>Использование блока «если коснётся»</li>
+                <li>Игровая логика: «если коснёшься монстра — проиграл!»</li>
+                <li>Создание простой игры с правилами</li>
+                <li>Ввод условной логики в детской форме</li>
+            </ul>
+
+            <h3>Урок 7. Работа с фонами и сценами</h3>
+            <ul>
+                <li>Смена фона по команде</li>
+                <li>Создание истории из 2–3 сцен</li>
+                <li>«Путешествие героя»: лес → город → замок</li>
+                <li>Развитие повествовательного мышления и структуры проекта</li>
+            </ul>
+
+            <h3>Урок 8. Итоговый проект</h3>
+            <ul>
+                <li>Дети самостоятельно создают мини-историю или игру</li>
+                <li>Используют всё изученное: циклы, события, звуки, смену фона</li>
+                <li>Презентация проектов перед группой</li>
+                <li>Обратная связь и похвала</li>
+            </ul>
+        </div>
+    </div>
+
     <script>
         // Smooth scrolling for anchor links
         document.querySelectorAll('a[href^="#"]').forEach(anchor => {
@@ -835,6 +976,25 @@
                 behavior: 'smooth'
             });
         });
+
+        // Modal functionality
+        function openScratchJrModal() {
+            document.getElementById('scratchJrModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeModal() {
+            document.getElementById('scratchJrModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+        // Close modal when clicking outside of it
+        window.onclick = function(event) {
+            const modal = document.getElementById('scratchJrModal');
+            if (event.target == modal) {
+                closeModal();
+            }
+        }
     </script>
 </body>
 </html>
