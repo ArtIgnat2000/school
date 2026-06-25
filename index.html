@@ -1178,19 +1178,19 @@
     </div>
 
 
-    <div id="scratchGamesModal" class="modal">
+    <div id="NeironModal" class="modal">
         <div class="modal-content">
-            <span class="close" onclick="closeScratchGamesModal()">&times;</span>
-            <h2>Scratch игры - Программа курса</h2>
-            <p>Программа обучения по Scratch: 7 игр</p>
+            <span class="close" onclick="closeNeironModal()">&times;</span>
+            <h2>Нейросети - Программа курса</h2>
+            <p>Программа обучения по Нейросетям: 7 уроков</p>
             
-            <h3>1. Змейка</h3>
-            <h3>2. Крокодил</h3>
-            <h3>3. Космос</h3>
-            <h3>4. Динозавр</h3>
-            <h3>5. Платформер</h3>
-            <h3>6. Стрелялка</h3>
-            <h3>7. Танчики</h3>
+            <h3>1. Знакомство с нейросетями</h3>
+            <h3>2. Генерация изображений</h3>
+            <h3>3. Создание сказки/рассказа</h3>
+            <h3>4. Создание сайта</h3>
+            <h3>5. Создание игры "Прыгай через краторы"</h3>
+            <h3>6. Создание игры "Футбол"</h3>
+            <h3>7. Создание легкой игры по просьбе ученика</h3>
         </div>
     </div>
 
@@ -1297,6 +1297,17 @@
 
         function closeScratchGamesModal() {
             document.getElementById('scratchGamesModal').style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+
+
+        function openNeironModal() {
+            document.getElementById('NeironModal').style.display = 'block';
+            document.body.style.overflow = 'hidden';
+        }
+
+        function closeNeironModal() {
+            document.getElementById('NeironModal').style.display = 'none';
             document.body.style.overflow = 'auto';
         }
 
