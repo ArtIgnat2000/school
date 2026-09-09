@@ -4,705 +4,97 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-labs - Школа программирования для детей</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css  ">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --accent: #4cc9f0;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #4ade80;
-            --warning: #facc15;
-            --danger: #f87171;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-        }
-
-        body {
-            background-color: #f9fafb;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-        }
-
-        header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            position: relative;
-            animation: fadeInDown 1s ease;
-        }
-
-        .tagline {
-            font-size: 1.4rem;
-            margin-bottom: 30px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            animation: fadeInUp 1s ease;
-        }
-
-        .header-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            position: relative;
-            animation: fadeIn 1.5s ease;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 14px 32px;
-            background-color: var(--accent);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-            background-color: #38b2d6;
-        }
-
-        .btn.secondary {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .btn.secondary:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-sm {
-            padding: 14px 32px;
-            font-size: 1.1rem;
-            margin-top: 10px;
-            background-color: var(--secondary);
-            font-weight: 600;
-        }
-
-        .btn-sm:hover {
-            background-color: #322ba3;
-        }
-
-        /* Main Content */
-        section {
-            padding: 80px 0;
-        }
-
-        section:nth-child(even) {
-            background-color: var(--light);
-        }
-
-        h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-
-        p.center {
-            text-align: center;
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 50px;
-            color: var(--gray);
-        }
-
-        /* Features Section */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .feature-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--light-gray);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        .feature-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-
-        .feature-card p {
-            color: var(--gray);
-            font-size: 1.05rem;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .testimonial {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            position: relative;
-        }
-
-        .testimonial::before {
-            content: """;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 5rem;
-            color: var(--light-gray);
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
-
-        .testimonial p {
-            font-style: italic;
-            margin-bottom: 20px;
-            padding-left: 30px;
-            color: var(--dark);
-            position: relative;
-            z-index: 1;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            padding-left: 30px;
-        }
-
-        .testimonial-author img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 15px;
-            border: 3px solid var(--accent);
-        }
-
-        /* Signup Section */
-        .signup-form {
-            max-width: 600px;
-            margin: 50px auto 0;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid var(--light-gray);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        .form-row {
-            display: flex;
-            gap: 20px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 60px 0 30px;
-            margin-top: 60px;
-        }
-
-        footer h3 {
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            font-size: 1.5rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        footer p {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .tagline {
-                font-size: 1.1rem;
-            }
-            
-            .header-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            h2 {
-                font-size: 2rem;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-        }
-
-        /* Animation */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .feature-icon {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Stats Section */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 50px 0;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            color: var(--gray);
-        }
-
-        /* Course Highlights */
-        .course-highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .highlight-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
-        }
-
-        .highlight-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .highlight-img {
-            height: 200px;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-        }
-
-        .highlight-content {
-            padding: 25px;
-        }
-
-        .highlight-content h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        /* Experience Highlight */
-        .experience-highlight {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            margin: 60px 0;
-        }
-
-        .experience-highlight h2 {
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .experience-highlight p {
-            font-size: 1.4rem;
-            max-width: 800px;
-            margin: 0 auto 30px;
-        }
-
-        .years-badge {
-            background: white;
-            color: var(--secondary);
-            font-size: 4rem;
-            font-weight: 700;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Scroll to top button */
-        .scroll-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-
-        .scroll-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .scroll-top:hover {
-            background: var(--secondary);
-            transform: translateY(-5px);
-        }
-
-        /* Courses Section */
-        .courses-section {
-            background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
-            padding: 80px 0;
-        }
-
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .course-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .course-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .course-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
-
-        .course-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-
-        .course-card p {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        .course-footer {
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding-top: 1rem;
-        }
-
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 15px;
-            width: 80%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .close {
-            color: var(--gray);
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .close:hover {
-            color: var(--dark);
-        }
-
-        .modal h3 {
-            color: var(--primary);
-            margin: 20px 0 10px 0;
-        }
-
-        .modal ul {
-            padding-left: 20px;
-            margin: 10px 0;
-        }
-
-        .modal li {
-            margin-bottom: 8px;
-        }
-
-        .modal p {
-            margin: 10px 0;
-        }
-
-        .modal ol {
-            padding-left: 20px;
-            margin: 10px 0;
-        }
-
-        .modal ol li {
-            margin-bottom: 10px;
-        }
-
-        .modal ol li p {
-            margin: 5px 0;
-        }
-    </style>
+    <meta name="description" content="V-labs — онлайн-школа программирования для детей: Scratch, ScratchJr, Roblox Studio, нейросети и 3D-моделирование. Создаём игры, а не просто играем!">
+    <meta name="theme-color" content="#eceff7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#07070d" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Тема применяется до первой отрисовки, чтобы не было вспышки
+        (function () {
+            try {
+                var saved = localStorage.getItem('vlabs-theme');
+                var dark = saved ? saved === 'dark'
+                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+
+                // Анимацию появления включаем ТОЛЬКО если она точно сработает.
+                // Нет IntersectionObserver / включён «reduce motion» / ошибка —
+                // класс не ставится, и весь контент просто видим.
+                var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (window.IntersectionObserver && !reduce) {
+                    document.documentElement.classList.add('js-reveal');
+                }
+            } catch (e) {}
+        })();
+    </script>
 </head>
 <body>
-    <header>
+    <!-- Вибратный фон под «жидким стеклом» -->
+    <div class="bg-canvas" aria-hidden="true">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <nav class="nav" id="nav">
+        <a class="brand" href="#top" aria-label="V-labs — на главную">
+            <span class="brand-mark"><img src="assets/logo.png" alt="V-labs"></span>
+            <span class="brand-name">V-labs</span>
+        </a>
+        <div class="nav-links">
+            <a href="#about">Преимущества</a>
+            <a href="#creative">Творчество</a>
+            <a href="#courses">Курсы</a>
+        </div>
+        <div class="nav-actions">
+            <button class="icon-btn" id="themeToggle" type="button" aria-label="Сменить тему">
+                <i class="fas fa-moon"></i>
+            </button>
+            <a href="https://t.me/VLabsV" class="btn nav-btn">Записаться</a>
+        </div>
+    </nav>
+    <header class="hero" id="top">
         <div class="container">
-            <h1>V-labs</h1>
-            <p class="tagline">Школа программирования для детей: создаём игры, а не просто играем!</p>
-            <div class="header-buttons">
-                <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
-                <a href="#courses" class="btn secondary">Наши курсы</a>
+            <div class="hero-inner">
+                <span class="badge" data-reveal><span class="dot"></span>Онлайн-школа программирования</span>
+                <h1 data-reveal>V-labs</h1>
+                <p class="tagline" data-reveal>Школа программирования для детей: создаём игры, а не просто играем!</p>
+                <div class="header-buttons" data-reveal>
+                    <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    <a href="#courses" class="btn secondary">Наши курсы</a>
+                </div>
+                <div class="hero-chips" data-reveal>
+                    <span class="chip">🐱 Scratch</span>
+                    <span class="chip">🧠 Нейросети</span>
+                    <span class="chip">🎮 Roblox Studio</span>
+                    <span class="chip">📐 КОМПАС-3D</span>
+                </div>
             </div>
         </div>
     </header>
 
-    <section>
+    <section id="about">
         <div class="container">
-            <h2>Ваш ребёнок любит компьютер? Пусть проведёт время с пользой!</h2>
-            <p class="center">В нашей школе он научится:</p>
+            <span class="eyebrow" data-reveal>Навыки</span>
+            <h2 data-reveal>Ваш ребёнок любит компьютер? Пусть проведёт время с пользой!</h2>
+            <p class="center" data-reveal>В нашей школе он научится:</p>
             
             <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🎮</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎮</div>
                     <h3>Создавать игры</h3>
                     <p>Собственные игры в Scratch 3.0 и Kodu — от простых аркад до сложных стратегий</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🧩</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🧩</div>
                     <h3>3D-моделирование</h3>
                     <p>Моделировать 3D-миры и LEGO-проекты в Studio 2.0 — воплощаем фантазии в реальность</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">📚</div>
                     <h3>Логика программирования</h3>
                     <p>Разбираться в логике кода — легко и весело через практические проекты</p>
                 </div>
@@ -710,24 +102,25 @@
         </div>
     </section>
 
-    <section>
+    <section id="creative">
         <div class="container">
-            <h2>Развиваем творческое мышление</h2>
-            <p class="center">Программирование — это не только логика, но и искусство создания виртуальных миров</p>
+            <span class="eyebrow" data-reveal>Творчество</span>
+            <h2 data-reveal>Развиваем творческое мышление</h2>
+            <p class="center" data-reveal>Программирование — это не только логика, но и искусство создания виртуальных миров</p>
             
             <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎨</div>
                     <h3>Дизайн проектов</h3>
                     <p>Создание уникальных визуальных стилей, персонажей и интерфейсов</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎭</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎭</div>
                     <h3>Создание историй</h3>
                     <p>Разработка сценариев и сюжетов для интерактивных игр и анимаций</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎵</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎵</div>
                     <h3>Мультимедиа проекты</h3>
                     <p>Интеграция звука, анимации и визуальных эффектов в творческие проекты</p>
                 </div>
@@ -737,89 +130,90 @@
 
     <section class="courses-section" id="courses">
         <div class="container">
-            <h2>Наши курсы</h2>
-            <p class="center">Выберите программу обучения, которая подходит именно вашему ребёнку</p>
+            <span class="eyebrow" data-reveal>Программы обучения</span>
+            <h2 data-reveal>Наши курсы</h2>
+            <p class="center" data-reveal>Выберите программу обучения, которая подходит именно вашему ребёнку</p>
             
             <div class="courses-grid">
-                <div class="course-card">
-                    <div class="course-icon">🐱</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🐱</div>
                     <h3>Scratch</h3>
                     <p>Основы программирования через создание интерактивных историй, игр и анимаций</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm" onclick="openScratchModal()">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">😺</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">😺</div>
                     <h3>Scratch Jnr</h3>
                     <p>Программирование для самых маленьких (6-8 лет) с использованием визуальных блоков</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm" onclick="openScratchJrModal()">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🚀</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🚀</div>
                     <h3>Scratch продвинутый</h3>
                     <p>Расширенные возможности программирования, сложные проекты и алгоритмы</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm" onclick="openAdvancedScratchModal()">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🎮</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🎮</div>
                     <h3>Scratch игры</h3>
                     <p>Создание сложных 2D и 3D игр с анимацией, физикой и ИИ</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm" onclick="openScratchGamesModal()">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🧠</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🧠</div>
                     <h3>Нейросети</h3>
                     <p>Основы машинного обучения и нейросетей для юных программистов</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm" onclick="openNeironModal()" >Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🎮</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🎮</div>
                     <h3>Kodu</h3>
                     <p>Создание 3D-игр с помощью визуального языка программирования от Microsoft</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">💻</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">💻</div>
                     <h3>Комп. грамотность</h3>
                     <p>Основы работы с компьютером, интернетом и офисными приложениями</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🧩</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🧩</div>
                     <h3>Компас</h3>
                     <p>Основы черчения и 3D-моделирования в системе КОМПАС-3D</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon"> 🎮 </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon"> 🎮 </div>
                     <h3>Roblox Studio</h3>
                     <p>Моделирование и создание игр в Roblox Studio</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
             </div>
@@ -828,11 +222,13 @@
 
     <footer>
         <div class="container">
-            <h3>V-labs — школа программирования для детей</h3>
-            <div class="social-links">
-                <a href="https://t.me/VLabsV  " aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+            <div class="footer-card glass" data-reveal>
+                <h3>V-labs — школа программирования для детей</h3>
+                <div class="social-links">
+                    <a href="https://t.me/VLabsV" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                </div>
+                <p>© <span id="year">2026</span> Все права защищены</p>
             </div>
-            <p>© 2023 Все права защищены</p>
         </div>
     </footer>
 
@@ -1194,145 +590,187 @@
         </div>
     </div>
 
+    <!-- iOS-уведомление -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
     <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+        /* ---------- Тема: светлая / тёмная ---------- */
+        const root = document.documentElement;
+        const themeBtn = document.getElementById('themeToggle');
+        const themeIcon = themeBtn.querySelector('i');
+
+        function syncThemeIcon() {
+            const dark = root.dataset.theme === 'dark';
+            themeIcon.className = dark ? 'fas fa-sun' : 'fas fa-moon';
+            themeBtn.setAttribute('aria-label', dark ? 'Включить светлую тему' : 'Включить тёмную тему');
+        }
+        syncThemeIcon();
+
+        themeBtn.addEventListener('click', () => {
+            const dark = root.dataset.theme === 'dark';
+            root.dataset.theme = dark ? 'light' : 'dark';
+            try { localStorage.setItem('vlabs-theme', root.dataset.theme); } catch (e) {}
+            syncThemeIcon();
+        });
+
+        /* ---------- Плавный скролл по якорям ---------- */
+        document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
             anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.length < 2) { e.preventDefault(); return; }
+                const target = document.querySelector(href);
+                if (!target) return;
                 e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
             });
         });
 
-        // Form submission handling
-        const form = document.querySelector('.signup-form');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form values
-                const childName = document.getElementById('child-name').value;
-                const childAge = document.getElementById('child-age').value;
-                
-                // Show success message
-                alert(`Спасибо за запись, ${childName}! Мы свяжемся с вами в ближайшее время для подтверждения пробного урока.`);
-                
-                // Reset form
-                form.reset();
-            });
-        }
-
-        // Add animation to feature cards when they come into view
-        const featureCards = document.querySelectorAll('.feature-card');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
+        /* ---------- Появление блоков при скролле (+ страховка) ---------- */
+        function revealInView() {
+            document.querySelectorAll('[data-reveal]:not(.is-visible)').forEach(function (el) {
+                const rect = el.getBoundingClientRect();
+                // блок попал в экран (или почти) — показываем
+                if (rect.top < window.innerHeight && rect.bottom > -50) {
+                    el.classList.add('is-visible');
                 }
             });
-        }, { threshold: 0.1 });
+        }
 
-        featureCards.forEach(card => {
-            card.style.opacity = 0;
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
+        if (document.documentElement.classList.contains('js-reveal')) {
+            const revealObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        el.classList.add('is-visible');
+                        revealObserver.unobserve(el);
+                        // задержка нужна только для «волны» появления
+                        setTimeout(function () { el.style.transitionDelay = ''; }, 1400);
+                    }
+                });
+            }, { threshold: 0.05, rootMargin: '0px 0px -6% 0px' });
+
+            document.querySelectorAll('[data-reveal]').forEach(function (el) {
+                const siblings = Array.from(el.parentElement.children).filter(function (c) {
+                    return c.hasAttribute('data-reveal');
+                });
+                el.style.transitionDelay = Math.min(siblings.indexOf(el), 8) * 80 + 'ms';
+                revealObserver.observe(el);
+            });
+
+            // Страховка: если observer по какой-то причине не сработал,
+            // показываем всё, что в зоне видимости, и в худшем случае — вообще всё.
+            window.addEventListener('scroll', revealInView, { passive: true });
+            window.addEventListener('resize', revealInView);
+            window.addEventListener('load', revealInView);
+            setInterval(revealInView, 800);
+            setTimeout(revealInView, 300);
+            setTimeout(function () {                     // финальный предохранитель
+                document.querySelectorAll('[data-reveal]').forEach(function (el) {
+                    el.classList.add('is-visible');
+                });
+            }, 10000);
+        }
+
+        /* ---------- Навигация и кнопка «наверх» ---------- */
+        const nav = document.getElementById('nav');
+        const scrollTopBtn = document.getElementById('scrollToTop');
+
+        function onScroll() {
+            nav.classList.toggle('scrolled', window.pageYOffset > 12);
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 400);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        scrollTopBtn.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
         });
 
-        // Scroll to top button functionality
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.classList.add('visible');
-            } else {
-                scrollToTopBtn.classList.remove('visible');
+        /* ---------- Модальные окна ---------- */
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.classList.add('open');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.classList.remove('open');
+            if (!document.querySelector('.modal.open')) {
+                document.body.classList.remove('modal-open');
             }
-        });
-        
-        scrollToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
+        }
+
+        function openScratchModal() { openModal('scratchModal'); }
+        function closeScratchModal() { closeModal('scratchModal'); }
+        function openScratchJrModal() { openModal('scratchJrModal'); }
+        function closeScratchJrModal() { closeModal('scratchJrModal'); }
+        function openAdvancedScratchModal() { openModal('advancedScratchModal'); }
+        function closeAdvancedScratchModal() { closeModal('advancedScratchModal'); }
+        function openScratchGamesModal() { openModal('scratchGamesModal'); }
+        function closeScratchGamesModal() { closeModal('scratchGamesModal'); }
+        function openNeironModal() { openModal('NeironModal'); }
+        function closeNeironModal() { closeModal('NeironModal'); }
+
+        document.querySelectorAll('.modal .close').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                closeModal(btn.closest('.modal').id);
             });
         });
 
-        // Modal functionality
-        function openScratchModal() {
-            document.getElementById('scratchModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeScratchModal() {
-            document.getElementById('scratchModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function openScratchJrModal() {
-            document.getElementById('scratchJrModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeScratchJrModal() {
-            document.getElementById('scratchJrModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function openAdvancedScratchModal() {
-            document.getElementById('advancedScratchModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeAdvancedScratchModal() {
-            document.getElementById('advancedScratchModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function openScratchGamesModal() {
-            document.getElementById('scratchGamesModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeScratchGamesModal() {
-            document.getElementById('scratchGamesModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-
-        function openNeironModal() {
-            document.getElementById('NeironModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeNeironModal() {
-            document.getElementById('NeironModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('scratchModal');
-            if (event.target == modal) {
-                closeScratchModal();
+        window.addEventListener('click', function (event) {
+            if (event.target.classList && event.target.classList.contains('modal')) {
+                closeModal(event.target.id);
             }
-            
-            const modalJr = document.getElementById('scratchJrModal');
-            if (event.target == modalJr) {
-                closeScratchJrModal();
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.modal.open').forEach(function (modal) {
+                    closeModal(modal.id);
+                });
             }
-            
-            const modalAdv = document.getElementById('advancedScratchModal');
-            if (event.target == modalAdv) {
-                closeAdvancedScratchModal();
-            }
-            
-            const modalGames = document.getElementById('scratchGamesModal');
-            if (event.target == modalGames) {
-                closeScratchGamesModal();
-            }
+        });
+
+        /* ---------- Тосты ---------- */
+        let toastTimer;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3200);
         }
+
+        document.querySelectorAll('.course-card .btn-sm').forEach(function (btn) {
+            const isPlaceholder = btn.getAttribute('href') === '#' && !btn.hasAttribute('onclick');
+            if (!isPlaceholder) return;
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                showToast('Программа этого курса появится совсем скоро ✨');
+            });
+        });
+
+        /* ---------- «Живой» блик на стекле (iOS 26) ---------- */
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.querySelectorAll('.glass').forEach(function (surface) {
+                surface.addEventListener('pointermove', function (e) {
+                    const rect = surface.getBoundingClientRect();
+                    surface.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%');
+                    surface.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%');
+                });
+                surface.addEventListener('pointerleave', function () {
+                    surface.style.removeProperty('--mx');
+                    surface.style.removeProperty('--my');
+                });
+            });
+        }
+
+        /* ---------- Год в футере ---------- */
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
     </script>
 </body>
 </html>
