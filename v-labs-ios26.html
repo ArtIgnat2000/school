@@ -1,0 +1,1916 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>V-labs - Школа программирования для детей</title>
+    <meta name="description" content="V-labs — онлайн-школа программирования для детей: Scratch, ScratchJr, Roblox Studio, нейросети и 3D-моделирование. Создаём игры, а не просто играем!">
+    <meta name="theme-color" content="#eceff7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#07070d" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+/* ==========================================================================
+   V-labs — школа программирования для детей
+   Дизайн в стиле iOS 26 / Liquid Glass
+   ==========================================================================
+   Материал: полупрозрачное «жидкое стекло» (blur + saturate + спекулярный
+   блик по кромке), плавающие панели, сквиркл-скругления, вибратные
+   градиенты, глубокая тень и поддержка светлой / тёмной темы.
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   1. Токены
+   -------------------------------------------------------------------------- */
+:root {
+    color-scheme: light dark;
+
+    /* Вибратные акценты Apple */
+    --blue: #0a84ff;
+    --indigo: #6f5cff;
+    --violet: #bf5af2;
+    --pink: #ff2d7a;
+    --cyan: #40c8e0;
+    --orange: #ff9f0a;
+    --green: #30d158;
+
+    /* Светлый материал */
+    --bg: #eceff7;
+    --bg-tint: #f6f7fc;
+    --glass: rgba(255, 255, 255, 0.55);
+    --glass-strong: rgba(255, 255, 255, 0.78);
+    --glass-soft: rgba(255, 255, 255, 0.34);
+    --glass-brd: rgba(255, 255, 255, 0.7);
+    --edge-1: rgba(255, 255, 255, 0.95);
+    --edge-2: rgba(255, 255, 255, 0.45);
+    --sheen: rgba(255, 255, 255, 0.5);
+    --text: #0b0c11;
+    --text-2: rgba(11, 12, 17, 0.62);
+    --text-3: rgba(11, 12, 17, 0.42);
+    --text-inv: #ffffff;
+    --plate: #ffffff;
+    --shadow: 0 30px 60px -32px rgba(9, 12, 30, 0.5), 0 10px 24px -14px rgba(9, 12, 30, 0.28);
+    --shadow-sm: 0 14px 30px -20px rgba(9, 12, 30, 0.45);
+    --blob-op: 0.5;
+    --noise-op: 0.035;
+
+    /* Геометрия */
+    --r-xl: 42px;
+    --r-lg: 32px;
+    --r-md: 26px;
+    --r-sm: 18px;
+    --r-pill: 999px;
+
+    --ease: cubic-bezier(0.32, 0.72, 0, 1);
+    --font: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+        "Inter", "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+/* Тёмный материал */
+:root[data-theme="dark"] {
+    --bg: #07070d;
+    --bg-tint: #0d0e16;
+    --glass: rgba(28, 28, 36, 0.55);
+    --glass-strong: rgba(30, 31, 40, 0.8);
+    --glass-soft: rgba(255, 255, 255, 0.06);
+    --glass-brd: rgba(255, 255, 255, 0.14);
+    --edge-1: rgba(255, 255, 255, 0.32);
+    --edge-2: rgba(255, 255, 255, 0.08);
+    --sheen: rgba(255, 255, 255, 0.12);
+    --text: #f4f5fa;
+    --text-2: rgba(244, 245, 250, 0.66);
+    --text-3: rgba(244, 245, 250, 0.44);
+    --plate: #ffffff;
+    --shadow: 0 30px 70px -30px rgba(0, 0, 0, 0.85), 0 10px 26px -14px rgba(0, 0, 0, 0.6);
+    --shadow-sm: 0 14px 32px -20px rgba(0, 0, 0, 0.8);
+    --blob-op: 0.5;
+    --noise-op: 0.05;
+}
+
+/* Свойства для «живого» блика (регистрируем, чтобы работал transition) */
+@property --mx {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: 16%;
+}
+
+@property --my {
+    syntax: "<percentage>";
+    inherits: true;
+    initial-value: -18%;
+}
+
+/* --------------------------------------------------------------------------
+   2. База
+   -------------------------------------------------------------------------- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+    -webkit-text-size-adjust: 100%;
+}
+
+body {
+    font-family: var(--font);
+    background-color: var(--bg);
+    color: var(--text);
+    line-height: 1.55;
+    letter-spacing: -0.01em;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    overflow-x: hidden;
+    min-height: 100vh;
+}
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+a {
+    color: inherit;
+    text-decoration: none;
+}
+
+::selection {
+    background: color-mix(in srgb, var(--indigo) 40%, transparent);
+    color: var(--text);
+}
+
+.container {
+    width: 100%;
+    max-width: 1180px;
+    margin: 0 auto;
+    padding: 0 24px;
+}
+
+/* --------------------------------------------------------------------------
+   3. Фон: вибратные пятна + зерно
+   -------------------------------------------------------------------------- */
+.bg-canvas {
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    overflow: hidden;
+    background:
+        radial-gradient(120% 90% at 50% -10%, var(--bg-tint), transparent 60%),
+        var(--bg);
+    pointer-events: none;
+}
+
+/* вуаль поверх пятен — текст остаётся читаемым, стекло всё равно «ловит» цвет */
+.bg-canvas::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.62));
+}
+
+:root[data-theme="dark"] .bg-canvas::after {
+    background: linear-gradient(180deg, rgba(7, 7, 13, 0.45), rgba(7, 7, 13, 0.7));
+}
+
+.blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: var(--blob-op);
+    will-change: transform;
+}
+
+.blob-1 {
+    width: 46vw;
+    height: 46vw;
+    min-width: 340px;
+    min-height: 340px;
+    top: -12vw;
+    left: -8vw;
+    background: radial-gradient(circle at 35% 35%, var(--blue), transparent 68%);
+    animation: drift-a 26s var(--ease) infinite alternate;
+}
+
+.blob-2 {
+    width: 40vw;
+    height: 40vw;
+    min-width: 300px;
+    min-height: 300px;
+    top: 8vh;
+    right: -10vw;
+    background: radial-gradient(circle at 60% 40%, var(--violet), transparent 68%);
+    animation: drift-b 32s var(--ease) infinite alternate;
+}
+
+.blob-3 {
+    width: 38vw;
+    height: 38vw;
+    min-width: 300px;
+    min-height: 300px;
+    top: 55%;
+    left: 12%;
+    background: radial-gradient(circle at 50% 50%, var(--pink), transparent 68%);
+    animation: drift-c 29s var(--ease) infinite alternate;
+}
+
+.blob-4 {
+    width: 32vw;
+    height: 32vw;
+    min-width: 260px;
+    min-height: 260px;
+    bottom: -8vw;
+    right: 4vw;
+    background: radial-gradient(circle at 50% 50%, var(--cyan), transparent 68%);
+    animation: drift-a 35s var(--ease) infinite alternate-reverse;
+}
+
+.noise {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    opacity: var(--noise-op);
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@keyframes drift-a {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(6vw, 6vh, 0) scale(1.15); }
+}
+@keyframes drift-b {
+    from { transform: translate3d(0, 0, 0) scale(1.1); }
+    to   { transform: translate3d(-8vw, 10vh, 0) scale(0.95); }
+}
+@keyframes drift-c {
+    from { transform: translate3d(0, 0, 0) scale(0.95); }
+    to   { transform: translate3d(10vw, -8vh, 0) scale(1.2); }
+}
+
+/* --------------------------------------------------------------------------
+   4. Стекло: базовый материал + спекулярная кромка
+   -------------------------------------------------------------------------- */
+.glass {
+    position: relative;
+    isolation: isolate;
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(30px) saturate(185%);
+    backdrop-filter: blur(30px) saturate(185%);
+    border: 1px solid var(--glass-brd);
+    border-radius: var(--r-md);
+    box-shadow: var(--shadow),
+        inset 0 1px 1px rgba(255, 255, 255, 0.6),
+        inset 0 -1px 1px rgba(255, 255, 255, 0.22);
+    transition: --mx 0.5s var(--ease), --my 0.5s var(--ease);
+}
+
+/* спекулярный ободок (граница-градиент) */
+.glass::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    padding: 1.2px;
+    background: linear-gradient(140deg, var(--edge-1), rgba(255, 255, 255, 0) 38%,
+                rgba(255, 255, 255, 0) 62%, var(--edge-2));
+    -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+    -webkit-mask-composite: xor;
+    mask-composite: exclude;
+    pointer-events: none;
+    z-index: 2;
+}
+
+/* мягкий блик: по умолчанию сверху слева, а на устройствах с курсором
+   «перетекает» за указателем, как подсветка кромки в iOS 26 */
+.glass::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    border-radius: inherit;
+    background: radial-gradient(420px circle at var(--mx) var(--my), var(--sheen), rgba(255, 255, 255, 0) 60%);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.glass > * {
+    position: relative;
+    z-index: 3;
+}
+
+/* --------------------------------------------------------------------------
+   5. Плавающая навигация
+   -------------------------------------------------------------------------- */
+.nav {
+    position: fixed;
+    top: 14px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: min(1180px, calc(100% - 24px));
+    z-index: 200;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 8px 10px 8px 14px;
+    border-radius: var(--r-pill);
+    background: var(--glass-soft);
+    -webkit-backdrop-filter: blur(26px) saturate(180%);
+    backdrop-filter: blur(26px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+    box-shadow: 0 12px 30px -22px rgba(9, 12, 30, 0.55),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45);
+    transition: background 0.4s var(--ease), box-shadow 0.4s var(--ease),
+        transform 0.5s var(--ease);
+}
+
+.nav.scrolled {
+    background: var(--glass-strong);
+    box-shadow: 0 18px 44px -24px rgba(9, 12, 30, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-right: auto;
+}
+
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 62px;
+    height: 38px;
+    padding: 0 8px;
+    border-radius: 13px;
+    background: var(--plate);
+    box-shadow: 0 6px 16px -8px rgba(9, 12, 30, 0.6),
+        inset 0 -1px 0 rgba(9, 12, 30, 0.08);
+}
+
+.brand-mark img {
+    width: 100%;
+    height: auto;
+}
+
+.brand-name {
+    font-size: 1.05rem;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+}
+
+.nav-links {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.nav-links a {
+    padding: 9px 16px;
+    border-radius: var(--r-pill);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text-2);
+    transition: color 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.nav-links a:hover {
+    color: var(--text);
+    background: var(--glass-soft);
+}
+
+.nav-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.icon-btn {
+    width: 38px;
+    height: 38px;
+    display: grid;
+    place-items: center;
+    border: 1px solid var(--glass-brd);
+    border-radius: 50%;
+    background: var(--glass-soft);
+    color: var(--text);
+    font-size: 0.95rem;
+    cursor: pointer;
+    transition: transform 0.25s var(--ease), background 0.25s var(--ease);
+}
+
+.icon-btn:hover {
+    background: var(--glass);
+    transform: scale(1.06);
+}
+
+.icon-btn:active {
+    transform: scale(0.94);
+}
+
+/* --------------------------------------------------------------------------
+   6. Hero
+   -------------------------------------------------------------------------- */
+header.hero {
+    position: relative;
+    padding: 168px 0 90px;
+    text-align: center;
+}
+
+.hero-inner {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 16px 8px 12px;
+    border-radius: var(--r-pill);
+    font-size: 0.86rem;
+    font-weight: 600;
+    color: var(--text-2);
+    background: var(--glass-soft);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+    box-shadow: var(--shadow-sm);
+}
+
+.badge .dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 0 4px rgba(48, 209, 88, 0.25);
+    box-shadow: 0 0 0 4px color-mix(in srgb, var(--green) 25%, transparent);
+    animation: pulse 2.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.55; transform: scale(0.85); }
+}
+
+header.hero h1 {
+    margin: 26px 0 0;
+    font-size: clamp(3.4rem, 12vw, 7.5rem);
+    font-weight: 800;
+    line-height: 0.94;
+    letter-spacing: -0.05em;
+    color: var(--text);
+}
+
+@supports (-webkit-background-clip: text) or (background-clip: text) {
+    header.hero h1 {
+        background: linear-gradient(96deg, var(--blue), var(--indigo) 34%, var(--violet) 58%, var(--pink) 82%, var(--blue));
+        background-size: 220% 100%;
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        animation: shimmer 14s linear infinite;
+    }
+}
+
+@keyframes shimmer {
+    to { background-position: 220% 0; }
+}
+
+.tagline {
+    margin: 22px auto 0;
+    max-width: 720px;
+    font-size: clamp(1.05rem, 2.4vw, 1.4rem);
+    font-weight: 400;
+    line-height: 1.45;
+    color: var(--text-2);
+    letter-spacing: -0.015em;
+}
+
+.header-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    flex-wrap: wrap;
+    margin-top: 38px;
+}
+
+.hero-chips {
+    display: flex;
+    justify-content: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    margin-top: 42px;
+}
+
+.chip {
+    padding: 10px 18px;
+    border-radius: var(--r-pill);
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-2);
+    background: var(--glass-soft);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+    box-shadow: var(--shadow-sm);
+    transition: transform 0.35s var(--ease), color 0.35s var(--ease);
+}
+
+.chip:hover {
+    transform: translateY(-3px);
+    color: var(--text);
+}
+
+/* --------------------------------------------------------------------------
+   7. Кнопки
+   -------------------------------------------------------------------------- */
+.btn {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 15px 30px;
+    border: none;
+    border-radius: var(--r-pill);
+    font-family: inherit;
+    font-size: 1.02rem;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    color: #fff;
+    cursor: pointer;
+    overflow: hidden;
+    background-image: linear-gradient(135deg, var(--blue), var(--indigo));
+    box-shadow: 0 16px 32px -16px rgba(111, 92, 255, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+    box-shadow: 0 16px 32px -16px color-mix(in srgb, var(--indigo) 80%, transparent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.45),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.12);
+    transition: transform 0.35s var(--ease), box-shadow 0.35s var(--ease),
+        filter 0.35s var(--ease);
+}
+
+/* блик, скользящий по кнопке */
+.btn::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(105deg, rgba(255, 255, 255, 0) 35%,
+                rgba(255, 255, 255, 0.45) 50%, rgba(255, 255, 255, 0) 65%);
+    transform: translateX(-120%);
+    transition: transform 0.7s var(--ease);
+}
+
+.btn:hover {
+    transform: translateY(-3px);
+    filter: saturate(115%);
+    box-shadow: 0 22px 40px -18px rgba(111, 92, 255, 0.75),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+    box-shadow: 0 22px 40px -18px color-mix(in srgb, var(--indigo) 85%, transparent),
+        inset 0 1px 0 rgba(255, 255, 255, 0.5);
+}
+
+.btn:hover::after {
+    transform: translateX(120%);
+}
+
+.btn:active {
+    transform: scale(0.96);
+}
+
+.btn.secondary {
+    color: var(--text);
+    background-image: none;
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+    box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+}
+
+.btn.secondary:hover {
+    background: var(--glass-strong);
+}
+
+.btn-sm {
+    padding: 12px 22px;
+    font-size: 0.92rem;
+    background-image: none;
+    background: var(--glass-soft);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+    color: var(--text);
+    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.5), var(--shadow-sm);
+}
+
+.btn-sm:hover {
+    background: var(--glass);
+}
+
+/* --------------------------------------------------------------------------
+   8. Секции и заголовки
+   -------------------------------------------------------------------------- */
+section {
+    padding: 92px 0;
+}
+
+.eyebrow {
+    display: inline-block;
+    margin-bottom: 18px;
+    padding: 7px 15px;
+    border-radius: var(--r-pill);
+    font-size: 0.78rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--text-2);
+    background: var(--glass-soft);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+}
+
+h2 {
+    font-size: clamp(1.9rem, 4.6vw, 3.2rem);
+    font-weight: 700;
+    line-height: 1.1;
+    letter-spacing: -0.035em;
+    color: var(--text);
+    max-width: 18ch;
+}
+
+h3 {
+    font-size: 1.22rem;
+    font-weight: 650;
+    letter-spacing: -0.025em;
+    color: var(--text);
+}
+
+p.center {
+    margin-top: 18px;
+    max-width: 640px;
+    font-size: 1.08rem;
+    color: var(--text-2);
+}
+
+/* --------------------------------------------------------------------------
+   9. Карточки преимуществ
+   -------------------------------------------------------------------------- */
+.features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+    gap: 22px;
+    margin-top: 54px;
+}
+
+.feature-card {
+    padding: 32px 28px 30px;
+    border-radius: var(--r-lg);
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+
+.feature-card.glass:hover {
+    transform: translateY(-10px) scale(1.015);
+}
+
+.icon-tile {
+    width: 66px;
+    height: 66px;
+    display: grid;
+    place-items: center;
+    border-radius: 21px;
+    font-size: 2rem;
+    line-height: 1;
+    margin-bottom: 22px;
+    background: var(--glass-strong);
+    -webkit-backdrop-filter: blur(20px) saturate(180%);
+    backdrop-filter: blur(20px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+    box-shadow: 0 12px 26px -18px rgba(9, 12, 30, 0.7),
+        inset 0 1px 0 rgba(255, 255, 255, 0.65);
+    animation: float 6s ease-in-out infinite;
+}
+
+.feature-card:nth-child(2) .icon-tile { animation-delay: -2s; }
+.feature-card:nth-child(3) .icon-tile { animation-delay: -4s; }
+
+@keyframes float {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-8px); }
+}
+
+.feature-card h3 {
+    margin-bottom: 10px;
+}
+
+.feature-card p {
+    color: var(--text-2);
+    font-size: 1rem;
+}
+
+/* --------------------------------------------------------------------------
+   10. Курсы
+   -------------------------------------------------------------------------- */
+.courses-section {
+    padding-bottom: 110px;
+}
+
+.courses-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(275px, 1fr));
+    gap: 22px;
+    margin-top: 54px;
+}
+
+.course-card {
+    display: flex;
+    flex-direction: column;
+    padding: 28px 26px 26px;
+    border-radius: var(--r-lg);
+    text-align: left;
+    transition: transform 0.5s var(--ease), box-shadow 0.5s var(--ease);
+}
+
+.course-card.glass:hover {
+    transform: translateY(-10px) scale(1.015);
+}
+
+.course-icon {
+    font-size: 1.9rem;
+    line-height: 1;
+}
+
+.course-card h3 {
+    margin: 20px 0 10px;
+    font-size: 1.3rem;
+}
+
+.course-card p {
+    color: var(--text-2);
+    font-size: 0.97rem;
+}
+
+.course-footer {
+    margin-top: auto;
+    padding-top: 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.course-footer .btn {
+    width: 100%;
+    padding: 13px 22px;
+    font-size: 0.95rem;
+}
+
+/* акцентные иконки курсов */
+.course-card:nth-child(9n+1) .icon-tile { box-shadow: 0 12px 26px -16px rgba(10, 132, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.65); }
+.course-card:nth-child(9n+2) .icon-tile { box-shadow: 0 12px 26px -16px rgba(255, 159, 10, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.65); }
+.course-card:nth-child(9n+3) .icon-tile { box-shadow: 0 12px 26px -16px rgba(111, 92, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.65); }
+.course-card:nth-child(9n+4) .icon-tile { box-shadow: 0 12px 26px -16px rgba(255, 45, 122, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.65); }
+.course-card:nth-child(9n+5) .icon-tile { box-shadow: 0 12px 26px -16px rgba(191, 90, 242, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.65); }
+.course-card:nth-child(9n+6) .icon-tile { box-shadow: 0 12px 26px -16px rgba(48, 209, 88, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.65); }
+.course-card:nth-child(9n+7) .icon-tile { box-shadow: 0 12px 26px -16px rgba(64, 200, 224, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.65); }
+.course-card:nth-child(9n+8) .icon-tile { box-shadow: 0 12px 26px -16px rgba(10, 132, 255, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.65); }
+.course-card:nth-child(9n+9) .icon-tile { box-shadow: 0 12px 26px -16px rgba(255, 45, 122, 0.6), inset 0 1px 0 rgba(255, 255, 255, 0.65); }
+
+/* --------------------------------------------------------------------------
+   11. Футер
+   -------------------------------------------------------------------------- */
+footer {
+    padding: 0 0 40px;
+}
+
+.footer-card {
+    padding: 54px 34px 34px;
+    border-radius: var(--r-xl);
+    text-align: center;
+}
+
+.footer-card h3 {
+    font-size: clamp(1.4rem, 3.4vw, 2.1rem);
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    margin-bottom: 26px;
+}
+
+.social-links {
+    display: flex;
+    justify-content: center;
+    gap: 14px;
+    margin-bottom: 28px;
+}
+
+.social-links a {
+    width: 52px;
+    height: 52px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 1.35rem;
+    color: var(--text);
+    background: var(--glass-soft);
+    -webkit-backdrop-filter: blur(18px) saturate(180%);
+    backdrop-filter: blur(18px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+    box-shadow: var(--shadow-sm), inset 0 1px 0 rgba(255, 255, 255, 0.55);
+    transition: transform 0.35s var(--ease), color 0.35s var(--ease);
+}
+
+.social-links a:hover {
+    transform: translateY(-5px) scale(1.05);
+    color: var(--blue);
+}
+
+footer p {
+    color: var(--text-3);
+    font-size: 0.9rem;
+}
+
+/* --------------------------------------------------------------------------
+   12. Кнопка «наверх»
+   -------------------------------------------------------------------------- */
+.scroll-top {
+    position: fixed;
+    right: 26px;
+    bottom: 26px;
+    width: 54px;
+    height: 54px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    color: var(--text);
+    font-size: 1.05rem;
+    cursor: pointer;
+    z-index: 150;
+    background: var(--glass);
+    -webkit-backdrop-filter: blur(24px) saturate(180%);
+    backdrop-filter: blur(24px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+    box-shadow: var(--shadow), inset 0 1px 0 rgba(255, 255, 255, 0.6);
+    opacity: 0;
+    transform: translateY(20px) scale(0.9);
+    pointer-events: none;
+    transition: opacity 0.4s var(--ease), transform 0.4s var(--ease);
+}
+
+.scroll-top.visible {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    pointer-events: auto;
+}
+
+.scroll-top:hover {
+    transform: translateY(-4px) scale(1.05);
+}
+
+/* --------------------------------------------------------------------------
+   13. Модальные окна (программы курсов)
+   -------------------------------------------------------------------------- */
+.modal {
+    display: none;
+    position: fixed;
+    inset: 0;
+    z-index: 1000;
+    padding: 24px;
+    overflow-y: auto;
+    background: rgba(8, 9, 16, 0.45);
+    -webkit-backdrop-filter: blur(18px) saturate(140%);
+    backdrop-filter: blur(18px) saturate(140%);
+}
+
+.modal.open {
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    animation: fade-in 0.3s var(--ease);
+}
+
+@keyframes fade-in {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+.modal-content {
+    position: relative;
+    width: min(820px, 100%);
+    margin: auto;
+    padding: 42px 40px 40px;
+    border-radius: var(--r-xl);
+    max-height: none;
+    background: var(--glass-strong);
+    -webkit-backdrop-filter: blur(34px) saturate(185%);
+    backdrop-filter: blur(34px) saturate(185%);
+    border: 1px solid var(--glass-brd);
+    box-shadow: 0 40px 90px -30px rgba(0, 0, 0, 0.6),
+        inset 0 1px 0 rgba(255, 255, 255, 0.7);
+    animation: modal-in 0.5s var(--ease);
+}
+
+@keyframes modal-in {
+    from { opacity: 0; transform: translateY(28px) scale(0.96); }
+    to { opacity: 1; transform: translateY(0) scale(1); }
+}
+
+.modal-content h2 {
+    font-size: clamp(1.5rem, 3.6vw, 2.2rem);
+    max-width: none;
+    margin-bottom: 14px;
+    padding-right: 44px;
+}
+
+.modal-content h3 {
+    margin: 30px 0 10px;
+    font-size: 1.15rem;
+    color: var(--text);
+    padding: 12px 18px;
+    border-radius: var(--r-sm);
+    background: var(--glass-soft);
+    border: 1px solid var(--glass-brd);
+}
+
+.modal-content p {
+    margin: 10px 0;
+    color: var(--text-2);
+}
+
+.modal-content strong {
+    color: var(--text);
+    font-weight: 650;
+}
+
+.modal-content ul,
+.modal-content ol {
+    margin: 10px 0;
+    padding-left: 22px;
+    color: var(--text-2);
+}
+
+.modal-content li {
+    margin-bottom: 7px;
+}
+
+.modal-content ul li::marker {
+    color: var(--indigo);
+}
+
+.close {
+    position: absolute;
+    top: 24px;
+    right: 24px;
+    width: 40px;
+    height: 40px;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    font-size: 1.1rem;
+    line-height: 1;
+    color: var(--text-2);
+    cursor: pointer;
+    background: var(--glass-soft);
+    border: 1px solid var(--glass-brd);
+    transition: transform 0.3s var(--ease), color 0.3s var(--ease);
+}
+
+.close:hover {
+    color: var(--text);
+    transform: rotate(90deg);
+}
+
+body.modal-open {
+    overflow: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   14. Тосты (iOS-style)
+   -------------------------------------------------------------------------- */
+.toast {
+    position: fixed;
+    left: 50%;
+    bottom: 34px;
+    transform: translate(-50%, 140%);
+    z-index: 1200;
+    max-width: min(520px, calc(100% - 40px));
+    padding: 14px 22px;
+    border-radius: var(--r-pill);
+    text-align: center;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--text);
+    background: var(--glass-strong);
+    -webkit-backdrop-filter: blur(28px) saturate(180%);
+    backdrop-filter: blur(28px) saturate(180%);
+    border: 1px solid var(--glass-brd);
+    box-shadow: var(--shadow);
+    opacity: 0;
+    pointer-events: none;
+    transition: transform 0.55s var(--ease), opacity 0.45s var(--ease);
+}
+
+.toast.show {
+    transform: translate(-50%, 0);
+    opacity: 1;
+}
+
+/* --------------------------------------------------------------------------
+   15. Появление при скролле
+   ВАЖНО: скрываем блоки ТОЛЬКО если JS сам добавил класс js-reveal
+   (то есть анимация гарантированно поддерживается). Иначе — без JS, без
+   IntersectionObserver, при prefers-reduced-motion или любой ошибке скрипта
+   весь контент (курсы, секции, карточки) остаётся полностью видимым.
+   -------------------------------------------------------------------------- */
+html.js-reveal [data-reveal] {
+    opacity: 0;
+    transform: translateY(30px) scale(0.985);
+    filter: blur(6px);
+    transition: opacity 0.85s var(--ease), transform 0.85s var(--ease),
+        filter 0.85s var(--ease);
+}
+
+html.js-reveal [data-reveal].is-visible {
+    opacity: 1;
+    transform: none;
+    filter: none;
+}
+
+/* --------------------------------------------------------------------------
+   16. Адаптив
+   -------------------------------------------------------------------------- */
+@media (max-width: 860px) {
+    .nav-links {
+        display: none;
+    }
+
+    header.hero {
+        padding: 140px 0 70px;
+    }
+
+    section {
+        padding: 70px 0;
+    }
+
+    h2 {
+        max-width: none;
+    }
+}
+
+@media (max-width: 560px) {
+    .container {
+        padding: 0 18px;
+    }
+
+    .brand-name {
+        display: none;
+    }
+
+    .header-buttons {
+        width: 100%;
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .header-buttons .btn {
+        width: 100%;
+    }
+
+    .modal {
+        padding: 14px;
+    }
+
+    .modal-content {
+        padding: 32px 22px 28px;
+    }
+
+    .footer-card {
+        padding: 40px 22px 28px;
+    }
+
+    .scroll-top {
+        right: 16px;
+        bottom: 16px;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   17. Уважаем системные настройки анимации
+   -------------------------------------------------------------------------- */
+@media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+        animation-duration: 0.001ms !important;
+        animation-iteration-count: 1 !important;
+        transition-duration: 0.001ms !important;
+        scroll-behavior: auto !important;
+    }
+
+    html.js-reveal [data-reveal] {
+        opacity: 1;
+        transform: none;
+        filter: none;
+    }
+
+    .glass {
+        transition: none;
+    }
+}
+
+/* --------------------------------------------------------------------------
+   18. Мелочи: кнопка в навигации, отступы под якоря
+   -------------------------------------------------------------------------- */
+.btn.nav-btn {
+    padding: 11px 22px;
+    font-size: 0.92rem;
+}
+
+section,
+header.hero {
+    scroll-margin-top: 96px;
+}
+
+/* --------------------------------------------------------------------------
+   19. iOS-мелочи
+   -------------------------------------------------------------------------- */
+body {
+    -webkit-tap-highlight-color: transparent;
+}
+
+.modal::-webkit-scrollbar {
+    width: 8px;
+}
+
+.modal::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.28);
+    border-radius: 999px;
+}
+    </style>
+    <script>
+        // Тема применяется до первой отрисовки, чтобы не было вспышки
+        (function () {
+            try {
+                var saved = localStorage.getItem('vlabs-theme');
+                var dark = saved ? saved === 'dark'
+                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+
+                // Анимацию появления включаем ТОЛЬКО если она точно сработает.
+                // Нет IntersectionObserver / включён «reduce motion» / ошибка —
+                // класс не ставится, и весь контент просто видим.
+                var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (window.IntersectionObserver && !reduce) {
+                    document.documentElement.classList.add('js-reveal');
+                }
+            } catch (e) {}
+        })();
+    </script>
+</head>
+<body>
+    <!-- Вибратный фон под «жидким стеклом» -->
+    <div class="bg-canvas" aria-hidden="true">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <nav class="nav" id="nav">
+        <a class="brand" href="#top" aria-label="V-labs — на главную">
+            <span class="brand-mark"><img src="data:image/png;base64,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" alt="V-labs"></span>
+            <span class="brand-name">V-labs</span>
+        </a>
+        <div class="nav-links">
+            <a href="#about">Преимущества</a>
+            <a href="#creative">Творчество</a>
+            <a href="#courses">Курсы</a>
+        </div>
+        <div class="nav-actions">
+            <button class="icon-btn" id="themeToggle" type="button" aria-label="Сменить тему">
+                <i class="fas fa-moon"></i>
+            </button>
+            <a href="https://t.me/VLabsV" class="btn nav-btn">Записаться</a>
+        </div>
+    </nav>
+    <header class="hero" id="top">
+        <div class="container">
+            <div class="hero-inner">
+                <span class="badge" data-reveal><span class="dot"></span>Онлайн-школа программирования</span>
+                <h1 data-reveal>V-labs</h1>
+                <p class="tagline" data-reveal>Школа программирования для детей: создаём игры, а не просто играем!</p>
+                <div class="header-buttons" data-reveal>
+                    <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    <a href="#courses" class="btn secondary">Наши курсы</a>
+                </div>
+                <div class="hero-chips" data-reveal>
+                    <span class="chip">🐱 Scratch</span>
+                    <span class="chip">🧠 Нейросети</span>
+                    <span class="chip">🎮 Roblox Studio</span>
+                    <span class="chip">📐 КОМПАС-3D</span>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <section id="about">
+        <div class="container">
+            <span class="eyebrow" data-reveal>Навыки</span>
+            <h2 data-reveal>Ваш ребёнок любит компьютер? Пусть проведёт время с пользой!</h2>
+            <p class="center" data-reveal>В нашей школе он научится:</p>
+            
+            <div class="features">
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎮</div>
+                    <h3>Создавать игры</h3>
+                    <p>Собственные игры в Scratch 3.0 и Kodu — от простых аркад до сложных стратегий</p>
+                </div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🧩</div>
+                    <h3>3D-моделирование</h3>
+                    <p>Моделировать 3D-миры и LEGO-проекты в Studio 2.0 — воплощаем фантазии в реальность</p>
+                </div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">📚</div>
+                    <h3>Логика программирования</h3>
+                    <p>Разбираться в логике кода — легко и весело через практические проекты</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="creative">
+        <div class="container">
+            <span class="eyebrow" data-reveal>Творчество</span>
+            <h2 data-reveal>Развиваем творческое мышление</h2>
+            <p class="center" data-reveal>Программирование — это не только логика, но и искусство создания виртуальных миров</p>
+            
+            <div class="features">
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎨</div>
+                    <h3>Дизайн проектов</h3>
+                    <p>Создание уникальных визуальных стилей, персонажей и интерфейсов</p>
+                </div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎭</div>
+                    <h3>Создание историй</h3>
+                    <p>Разработка сценариев и сюжетов для интерактивных игр и анимаций</p>
+                </div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎵</div>
+                    <h3>Мультимедиа проекты</h3>
+                    <p>Интеграция звука, анимации и визуальных эффектов в творческие проекты</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section class="courses-section" id="courses">
+        <div class="container">
+            <span class="eyebrow" data-reveal>Программы обучения</span>
+            <h2 data-reveal>Наши курсы</h2>
+            <p class="center" data-reveal>Выберите программу обучения, которая подходит именно вашему ребёнку</p>
+            
+            <div class="courses-grid">
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🐱</div>
+                    <h3>Scratch</h3>
+                    <p>Основы программирования через создание интерактивных историй, игр и анимаций</p>
+                    <div class="course-footer">
+                        <a href="#" class="btn btn-sm" onclick="openScratchModal()">Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    </div>
+                </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">😺</div>
+                    <h3>Scratch Jnr</h3>
+                    <p>Программирование для самых маленьких (6-8 лет) с использованием визуальных блоков</p>
+                    <div class="course-footer">
+                        <a href="#" class="btn btn-sm" onclick="openScratchJrModal()">Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    </div>
+                </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🚀</div>
+                    <h3>Scratch продвинутый</h3>
+                    <p>Расширенные возможности программирования, сложные проекты и алгоритмы</p>
+                    <div class="course-footer">
+                        <a href="#" class="btn btn-sm" onclick="openAdvancedScratchModal()">Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    </div>
+                </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🎮</div>
+                    <h3>Scratch игры</h3>
+                    <p>Создание сложных 2D и 3D игр с анимацией, физикой и ИИ</p>
+                    <div class="course-footer">
+                        <a href="#" class="btn btn-sm" onclick="openScratchGamesModal()">Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    </div>
+                </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🧠</div>
+                    <h3>Нейросети</h3>
+                    <p>Основы машинного обучения и нейросетей для юных программистов</p>
+                    <div class="course-footer">
+                        <a href="#" class="btn btn-sm" onclick="openNeironModal()" >Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    </div>
+                </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🎮</div>
+                    <h3>Kodu</h3>
+                    <p>Создание 3D-игр с помощью визуального языка программирования от Microsoft</p>
+                    <div class="course-footer">
+                        <a href="#" class="btn btn-sm">Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    </div>
+                </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">💻</div>
+                    <h3>Комп. грамотность</h3>
+                    <p>Основы работы с компьютером, интернетом и офисными приложениями</p>
+                    <div class="course-footer">
+                        <a href="#" class="btn btn-sm">Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    </div>
+                </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🧩</div>
+                    <h3>Компас</h3>
+                    <p>Основы черчения и 3D-моделирования в системе КОМПАС-3D</p>
+                    <div class="course-footer">
+                        <a href="#" class="btn btn-sm">Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    </div>
+                </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon"> 🎮 </div>
+                    <h3>Roblox Studio</h3>
+                    <p>Моделирование и создание игр в Roblox Studio</p>
+                    <div class="course-footer">
+                        <a href="#" class="btn btn-sm">Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <div class="footer-card glass" data-reveal>
+                <h3>V-labs — школа программирования для детей</h3>
+                <div class="social-links">
+                    <a href="https://t.me/VLabsV" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                </div>
+                <p>© <span id="year">2026</span> Все права защищены</p>
+            </div>
+        </div>
+    </footer>
+
+    <div class="scroll-top" id="scrollToTop">
+        <i class="fas fa-arrow-up"></i>
+    </div>
+
+    <!-- Modal for Scratch -->
+    <div id="scratchModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeScratchModal()">&times;</span>
+            <h2>Scratch - Программа курса</h2>
+            <p>Курс разработан для освоения каждого типа блоков через практику, понимание их назначения и осознанное использование.</p>
+            
+            <h3>Урок 1: События (Events)</h3>
+            <p><strong>Цель:</strong> Научиться запускать программы по разным триггерам.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>когда щёлкнут по зелёному флагу</li>
+                <li>когда нажата клавиша</li>
+                <li>когда щёлкнут по спрайту</li>
+                <li>когда получено сообщение → отправить сообщение</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать интерактивную сценку:</p>
+            <ul>
+                <li>При нажатии на зелёный флаг — солнце выходит</li>
+                <li>При клике по облаку — идёт дождь</li>
+                <li>При нажатии пробела — появляется радуга (через сообщение)</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Программа не всегда начинается с зелёного флага — она может реагировать на действия!</p>
+
+            <h3>Урок 2: Движение (Motion)</h3>
+            <p><strong>Цель:</strong> Освоить управление положением и направлением спрайта.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>двигаться на … шагов</li>
+                <li>повернуть направо/налево</li>
+                <li>идти в x: y:</li>
+                <li>направиться к [спрайт]</li>
+                <li>оттолкнуться от края</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать лабиринт:</p>
+            <ul>
+                <li>Спрайт (герой) двигается стрелками</li>
+                <li>Не может проходить сквозь стены (используем если касается стены — оттолкнуться)</li>
+                <li>Добирается до финиша — появляется надпись «Победа!»</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Движение — это не только «вперёд», но и точное позиционирование и ориентация.</p>
+
+            <h3>Урок 3: Внешность (Looks)</h3>
+            <p><strong>Цель:</strong> Научиться управлять внешним видом спрайта и сценой.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>сказать … в течение … сек</li>
+                <li>сменить костюм</li>
+                <li>перейти к следующему костюму</li>
+                <li>установить размер</li>
+                <li>показать / спрятать</li>
+                <li>сделать надпись на сцене (через спрайт-текст)</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать интерактивную историю:</p>
+            <ul>
+                <li>Персонаж рассказывает историю (через сказать)</li>
+                <li>Меняет костюмы (рад → грустен → удивлён)</li>
+                <li>В нужный момент появляется/исчезает второй персонаж</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Внешность — это как «театр»: костюмы, реплики, появление и исчезновение.</p>
+
+            <h3>Урок 4: Звук (Sound)</h3>
+            <p><strong>Цель:</strong> Добавить звуковое сопровождение к проекту.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>играть звук …</li>
+                <li>играть звук … и ждать</li>
+                <li>остановить все звуки</li>
+                <li>изменить громкость</li>
+                <li>выбрать инструмент (для музыкальных проектов)</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать музыкальный инструмент:</p>
+            <ul>
+                <li>Каждая цифровая клавиша (1, 2, 3, 4…) играет разный звук</li>
+                <li>Можно изменять громкость колёсиком мыши или слайдером</li>
+                <li>Добавить режим «автоматического воспроизведения мелодии»</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Звук делает проект живым — он может быть реакцией, фоном или основой игры.</p>
+
+            <h3>Урок 5: Управление (Control)</h3>
+            <p><strong>Цель:</strong> Научиться управлять логикой выполнения программы.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>повторять …</li>
+                <li>навсегда</li>
+                <li>если … то</li>
+                <li>ждать … секунд</li>
+                <li>создать клон → когда я начинаю как клон</li>
+                <li>остановить [этот скрипт / всё]</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать метеоритный дождь:</p>
+            <ul>
+                <li>Наверху появляются клоны метеоритов через создать клон</li>
+                <li>Каждый клон падает вниз (изменять y)</li>
+                <li>При касании земли — исчезает</li>
+                <li>Используется цикл навсегда и если</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Управление — это «мозг» программы: кто, когда и сколько раз что делает.</p>
+
+            <h3>Урок 6: Сенсоры (Sensing)</h3>
+            <p><strong>Цель:</strong> Научиться «чувствовать» окружение.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>касается [спрайт/цвет/мышь]?</li>
+                <li>цвет … касается …?</li>
+                <li>расстояние до [спрайт]</li>
+                <li>спросить … и ждать</li>
+                <li>ответ</li>
+                <li>мышь нажата?</li>
+                <li>координаты мыши</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать викторину:</p>
+            <ul>
+                <li>Спрашивает имя</li>
+                <li>Проверяет ответ (если &lt;ответ = [Париж]&gt; то …)</li>
+                <li>Дополнительно: герой следует за мышью (идти к [мышка v])</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Сенсоры — это «органы чувств» спрайта: он видит, слышит (через ответы) и ощущает касания.</p>
+
+            <h3>Урок 7: Операторы (Operators)</h3>
+            <p><strong>Цель:</strong> Научиться работать с числами, текстом и логикой.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>Арифметика: +, -, *, /</li>
+                <li>Сравнение: >, &lt;, =</li>
+                <li>Логика: и, или, не</li>
+                <li>Случайное число</li>
+                <li>Объединение строк («Привет, » + имя)</li>
+                <li>Округление, модуль и др.</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать калькулятор удачи:</p>
+            <ul>
+                <li>Спрашивает имя</li>
+                <li>Генерирует случайное число от 1 до 100</li>
+                <li>сказать (объединить [Твоя удача: ] (случайное от 1 до 100))</li>
+                <li>Если > 80 — говорит «Ты везунчик!»</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Операторы — это «математика и логика» внутри Scratch.</p>
+
+            <h3>Урок 8: Данные (Data) — Переменные и списки</h3>
+            <p><strong>Цель:</strong> Научиться хранить и использовать информацию.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>создать переменную</li>
+                <li>установить [x] в …</li>
+                <li>изменить [x] на …</li>
+                <li>показать / спрятать переменную</li>
+                <li>создать список</li>
+                <li>добавить … к [список]</li>
+                <li>элемент [1] списка</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать дневник желаний:</p>
+            <ul>
+                <li>Программа спрашивает: «Что ты хочешь?»</li>
+                <li>Добавляет ответ в список «Желания»</li>
+                <li>В конце показывает весь список: сказать (объединить [Твои желания: ] (список Желания))</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Переменные — это память программы. Списки — это «коробки с многими записками».</p>
+        </div>
+    </div>
+
+    <!-- Modal for ScratchJr -->
+    <div id="scratchJrModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeScratchJrModal()">&times;</span>
+            <h2>Scratch Jnr - Программа курса</h2>
+            <p>Курс разработан для детей 6-8 лет, которые только начинают свой путь в программировании. Все уроки построены в игровой форме с использованием визуальных блоков.</p>
+            
+            <h3>Урок 1. Знакомство со ScratchJr</h3>
+            <ul>
+                <li>Что такое ScratchJr и зачем он нужен</li>
+                <li>Обзор интерфейса: сцена, персонажи, блоки команд</li>
+                <li>Простое перемещение персонажа вправо/влево</li>
+                <li>Игровая практика: «Помоги коту дойти до миски с молоком!»</li>
+            </ul>
+
+            <h3>Урок 2. Циклы (повторение действий)</h3>
+            <ul>
+                <li>Знакомство с блоком «повторить»</li>
+                <li>Практика: персонаж танцует, рисует узор, ходит по квадрату</li>
+                <li>Игра: «Собери 3 звезды, повторяя путь»</li>
+                <li>Изучение остальных блоков из оранжевой вкладки</li>
+            </ul>
+
+            <h3>Урок 3. Внешний вид персонажа</h3>
+            <ul>
+                <li>Что такое внешний вид</li>
+                <li>Составление простой цепочки команд: привет → увеличение → уменьшение</li>
+                <li>Создание короткой анимации-истории</li>
+                <li>Игровая практика: Увеличение персонажа с помощью цикла (из урока 2)</li>
+            </ul>
+
+            <h3>Урок 4. События и запуск по кнопке</h3>
+            <ul>
+                <li>Блок «когда нажат флажок» и «когда коснуто»</li>
+                <li>Создание интерактивной сцены: персонаж реагирует на касание</li>
+                <li>Мини-проект: интерактивная открытка</li>
+            </ul>
+
+            <h3>Урок 5. Звуки и эмоции</h3>
+            <ul>
+                <li>Добавление звуков и голосов</li>
+                <li>Меняем выражение лица персонажа</li>
+                <li>Создание короткого диалога между двумя героями</li>
+                <li>Введение понятия «сообщения» между персонажами</li>
+            </ul>
+
+            <h3>Урок 6. Условия и выбор (упрощённо)</h3>
+            <ul>
+                <li>Использование блока «если коснётся»</li>
+                <li>Игровая логика: «если коснёшься монстра — проиграл!»</li>
+                <li>Создание простой игры с правилами</li>
+                <li>Ввод условной логики в детской форме</li>
+            </ul>
+
+            <h3>Урок 7. Работа с фонами и сценами</h3>
+            <ul>
+                <li>Смена фона по команде</li>
+                <li>Создание истории из 2–3 сцен</li>
+                <li>«Путешествие героя»: лес → город → замок</li>
+                <li>Развитие повествовательного мышления и структуры проекта</li>
+            </ul>
+
+            <h3>Урок 8. Итоговый проект</h3>
+            <ul>
+                <li>Дети самостоятельно создают мини-историю или игру</li>
+                <li>Используют всё изученное: циклы, события, звуки, смену фона</li>
+                <li>Презентация проектов перед группой</li>
+                <li>Обратная связь и похвала</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal for Advanced Scratch -->
+    <div id="advancedScratchModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdvancedScratchModal()">&times;</span>
+            <h2>Scratch продвинутый - Программа курса</h2>
+            <p>Расширенные возможности программирования, сложные проекты и алгоритмы с использованием дополнительных расширений.</p>
+            
+            <h3>🔹 Урок 1: Музыкальный синтезатор</h3>
+            <p><strong>Расширение:</strong> Музыка</p>
+            <p><strong>Цель:</strong> Научиться создавать музыку в Scratch.</p>
+            <p><strong>Проект:</strong> Виртуальный синтезатор — при нажатии клавиш (A, S, D, F) звучат разные ноты.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Использование инструментов и барабанов</li>
+                <li>Настройка темпа и громкости</li>
+                <li>Добавление зацикленной мелодии</li>
+            </ul>
+            <p><strong>Блоки:</strong> играть ноту, выбрать инструмент, изменить темп</p>
+
+            <h3>🔹 Урок 2: Рисующий холст</h3>
+            <p><strong>Расширение:</strong> Перо</p>
+            <p><strong>Цель:</strong> Научиться рисовать в Scratch.</p>
+            <p><strong>Проект:</strong> Интерактивный рисунок — спрайт рисует узоры при движении мыши.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Использование опустить перо, поднять перо, очистить</li>
+                <li>Рисование спиралей, цветов, узоров</li>
+                <li>Добавление выбора цвета</li>
+            </ul>
+            <p><strong>Блоки:</strong> опустить перо, установить цвет пера, очистить</p>
+
+            <h3>🔹 Урок 3: Жестовое управление</h3>
+            <p><strong>Расширение:</strong> Видео распознавание</p>
+            <p><strong>Цель:</strong> Управлять проектом с помощью движений.</p>
+            <p><strong>Проект:</strong> “Поймай движением” — игрок управляет спрайтом, двигаясь перед камерой.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Отслеживание движения влево/вправо</li>
+                <li>Реакция на быстрые движения</li>
+                <li>Сбор предметов с помощью жестов</li>
+            </ul>
+            <p><strong>Блоки:</strong> движение камеры, направление движения</p>
+
+            <h3>🔹 Урок 4: Эмоциональный персонаж</h3>
+            <p><strong>Расширение:</strong> Face Sensing</p>
+            <p><strong>Цель:</strong> Реагировать на выражения лица.</p>
+            <p><strong>Проект:</strong> “Эмоциональный питомец” — спрайт радуется при улыбке, грустит при хмуром взгляде.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Использование улыбка?, моргание?, выражение лица</li>
+                <li>Анимация спрайта по эмоции</li>
+                <li>Звук при смене настроения</li>
+            </ul>
+            <p><strong>Блоки:</strong> улыбка?, грусть?, направление головы</p>
+
+            <h3>🔹 Урок 5: Говорящий персонаж</h3>
+            <p><strong>Расширение:</strong> Текст в речь</p>
+            <p><strong>Цель:</strong> Озвучивать текст в проекте.</p>
+            <p><strong>Проект:</strong> “Говорящая энциклопедия” — при клике на предмет, он описывает себя.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Выбор голоса и языка</li>
+                <li>Озвучка фраз и ответов</li>
+                <li>Синхронизация с анимацией</li>
+            </ul>
+            <p><strong>Блоки:</strong> произнести, произнести и ждать, установить голос</p>
+
+            <h3>🔹 Урок 6: Твои блоки — твой стиль!</h3>
+            <p><strong>Тема:</strong> Создание и использование собственных блоков</p>
+            <p><strong>Цель:</strong> Научиться создавать пользовательские блоки и использовать их в проектах.</p>
+            <p><strong>Проект:</strong> “Мой уникальный помощник” — спрайт, который выполняет действия по твоим блокам (например, “приветствовать”, “танцевать”, “перевести слово”).</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Создание пользовательского блока (через "Мои блоки" → "Создать блок")</li>
+                <li>Например: сказать привет, запустить музыку, перевести слово</li>
+                <li>Добавление параметров (число, текст, булево значение)</li>
+                <li>Например: скажи [текст] с голосом [голос]</li>
+                <li>Использование блоков в проекте</li>
+                <li>Создать меню с кнопками, каждая вызывает свой блок</li>
+                <li>Оптимизация кода — замена повторяющихся блоков на свои</li>
+            </ul>
+
+            <h3>🔹 Итоговый проект</h3>
+            <p>Самостоятельное создание комплексного проекта с использованием всех изученных расширений и пользовательских блоков.</p>
+        </div>
+    </div>
+
+    <!-- Modal for Scratch Games -->
+    <div id="scratchGamesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeScratchGamesModal()">&times;</span>
+            <h2>Scratch игры - Программа курса</h2>
+            <p>Программа обучения по Scratch: 7 игр</p>
+            
+            <h3>1. Змейка</h3>
+            <h3>2. Крокодил</h3>
+            <h3>3. Космос</h3>
+            <h3>4. Динозавр</h3>
+            <h3>5. Платформер</h3>
+            <h3>6. Стрелялка</h3>
+            <h3>7. Танчики</h3>
+        </div>
+    </div>
+
+
+    <div id="NeironModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNeironModal()">&times;</span>
+            <h2>Нейросети - Программа курса</h2>
+            <p>Программа обучения по Нейросетям: 7 уроков</p>
+            
+            <h3>1. Знакомство с нейросетями</h3>
+            <h3>2. Генерация изображений</h3>
+            <h3>3. Создание сказки/рассказа</h3>
+            <h3>4. Создание сайта</h3>
+            <h3>5. Создание игры "Прыгай через краторы"</h3>
+            <h3>6. Создание игры "Футбол"</h3>
+            <h3>7. Создание легкой игры по просьбе ученика</h3>
+        </div>
+    </div>
+
+    <!-- iOS-уведомление -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        /* ---------- Тема: светлая / тёмная ---------- */
+        const root = document.documentElement;
+        const themeBtn = document.getElementById('themeToggle');
+        const themeIcon = themeBtn.querySelector('i');
+
+        function syncThemeIcon() {
+            const dark = root.dataset.theme === 'dark';
+            themeIcon.className = dark ? 'fas fa-sun' : 'fas fa-moon';
+            themeBtn.setAttribute('aria-label', dark ? 'Включить светлую тему' : 'Включить тёмную тему');
+        }
+        syncThemeIcon();
+
+        themeBtn.addEventListener('click', () => {
+            const dark = root.dataset.theme === 'dark';
+            root.dataset.theme = dark ? 'light' : 'dark';
+            try { localStorage.setItem('vlabs-theme', root.dataset.theme); } catch (e) {}
+            syncThemeIcon();
+        });
+
+        /* ---------- Плавный скролл по якорям ---------- */
+        document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.length < 2) { e.preventDefault(); return; }
+                const target = document.querySelector(href);
+                if (!target) return;
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        /* ---------- Появление блоков при скролле (+ страховка) ---------- */
+        function revealInView() {
+            document.querySelectorAll('[data-reveal]:not(.is-visible)').forEach(function (el) {
+                const rect = el.getBoundingClientRect();
+                // блок попал в экран (или почти) — показываем
+                if (rect.top < window.innerHeight && rect.bottom > -50) {
+                    el.classList.add('is-visible');
+                }
+            });
+        }
+
+        if (document.documentElement.classList.contains('js-reveal')) {
+            const revealObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        el.classList.add('is-visible');
+                        revealObserver.unobserve(el);
+                        // задержка нужна только для «волны» появления
+                        setTimeout(function () { el.style.transitionDelay = ''; }, 1400);
+                    }
+                });
+            }, { threshold: 0.05, rootMargin: '0px 0px -6% 0px' });
+
+            document.querySelectorAll('[data-reveal]').forEach(function (el) {
+                const siblings = Array.from(el.parentElement.children).filter(function (c) {
+                    return c.hasAttribute('data-reveal');
+                });
+                el.style.transitionDelay = Math.min(siblings.indexOf(el), 8) * 80 + 'ms';
+                revealObserver.observe(el);
+            });
+
+            // Страховка: если observer по какой-то причине не сработал,
+            // показываем всё, что в зоне видимости, и в худшем случае — вообще всё.
+            window.addEventListener('scroll', revealInView, { passive: true });
+            window.addEventListener('resize', revealInView);
+            window.addEventListener('load', revealInView);
+            setInterval(revealInView, 800);
+            setTimeout(revealInView, 300);
+            setTimeout(function () {                     // финальный предохранитель
+                document.querySelectorAll('[data-reveal]').forEach(function (el) {
+                    el.classList.add('is-visible');
+                });
+            }, 10000);
+        }
+
+        /* ---------- Навигация и кнопка «наверх» ---------- */
+        const nav = document.getElementById('nav');
+        const scrollTopBtn = document.getElementById('scrollToTop');
+
+        function onScroll() {
+            nav.classList.toggle('scrolled', window.pageYOffset > 12);
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 400);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        scrollTopBtn.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        /* ---------- Модальные окна ---------- */
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.classList.add('open');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.classList.remove('open');
+            if (!document.querySelector('.modal.open')) {
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function openScratchModal() { openModal('scratchModal'); }
+        function closeScratchModal() { closeModal('scratchModal'); }
+        function openScratchJrModal() { openModal('scratchJrModal'); }
+        function closeScratchJrModal() { closeModal('scratchJrModal'); }
+        function openAdvancedScratchModal() { openModal('advancedScratchModal'); }
+        function closeAdvancedScratchModal() { closeModal('advancedScratchModal'); }
+        function openScratchGamesModal() { openModal('scratchGamesModal'); }
+        function closeScratchGamesModal() { closeModal('scratchGamesModal'); }
+        function openNeironModal() { openModal('NeironModal'); }
+        function closeNeironModal() { closeModal('NeironModal'); }
+
+        document.querySelectorAll('.modal .close').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                closeModal(btn.closest('.modal').id);
+            });
+        });
+
+        window.addEventListener('click', function (event) {
+            if (event.target.classList && event.target.classList.contains('modal')) {
+                closeModal(event.target.id);
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.modal.open').forEach(function (modal) {
+                    closeModal(modal.id);
+                });
+            }
+        });
+
+        /* ---------- Тосты ---------- */
+        let toastTimer;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3200);
+        }
+
+        document.querySelectorAll('.course-card .btn-sm').forEach(function (btn) {
+            const isPlaceholder = btn.getAttribute('href') === '#' && !btn.hasAttribute('onclick');
+            if (!isPlaceholder) return;
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                showToast('Программа этого курса появится совсем скоро ✨');
+            });
+        });
+
+        /* ---------- «Живой» блик на стекле (iOS 26) ---------- */
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.querySelectorAll('.glass').forEach(function (surface) {
+                surface.addEventListener('pointermove', function (e) {
+                    const rect = surface.getBoundingClientRect();
+                    surface.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%');
+                    surface.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%');
+                });
+                surface.addEventListener('pointerleave', function () {
+                    surface.style.removeProperty('--mx');
+                    surface.style.removeProperty('--my');
+                });
+            });
+        }
+
+        /* ---------- Год в футере ---------- */
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
