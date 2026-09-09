@@ -17,6 +17,14 @@
                 var dark = saved ? saved === 'dark'
                     : window.matchMedia('(prefers-color-scheme: dark)').matches;
                 document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+
+                // Анимацию появления включаем ТОЛЬКО если она точно сработает.
+                // Нет IntersectionObserver / включён «reduce motion» / ошибка —
+                // класс не ставится, и весь контент просто видим.
+                var reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+                if (window.IntersectionObserver && !reduce) {
+                    document.documentElement.classList.add('js-reveal');
+                }
             } catch (e) {}
         })();
     </script>
@@ -73,7 +81,7 @@
             <span class="eyebrow" data-reveal>Навыки</span>
             <h2 data-reveal>Ваш ребёнок любит компьютер? Пусть проведёт время с пользой!</h2>
             <p class="center" data-reveal>В нашей школе он научится:</p>
-
+            
             <div class="features">
                 <div class="feature-card glass" data-reveal>
                     <div class="icon-tile feature-icon">🎮</div>
@@ -99,7 +107,7 @@
             <span class="eyebrow" data-reveal>Творчество</span>
             <h2 data-reveal>Развиваем творческое мышление</h2>
             <p class="center" data-reveal>Программирование — это не только логика, но и искусство создания виртуальных миров</p>
-
+            
             <div class="features">
                 <div class="feature-card glass" data-reveal>
                     <div class="icon-tile feature-icon">🎨</div>
@@ -125,7 +133,7 @@
             <span class="eyebrow" data-reveal>Программы обучения</span>
             <h2 data-reveal>Наши курсы</h2>
             <p class="center" data-reveal>Выберите программу обучения, которая подходит именно вашему ребёнку</p>
-
+            
             <div class="courses-grid">
                 <div class="course-card glass" data-reveal>
                     <div class="icon-tile course-icon">🐱</div>
@@ -168,7 +176,7 @@
                     <h3>Нейросети</h3>
                     <p>Основы машинного обучения и нейросетей для юных программистов</p>
                     <div class="course-footer">
-                        <a href="#" class="btn btn-sm" onclick="openNeironModal()">Подробнее</a>
+                        <a href="#" class="btn btn-sm" onclick="openNeironModal()" >Подробнее</a>
                         <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
@@ -200,7 +208,7 @@
                     </div>
                 </div>
                 <div class="course-card glass" data-reveal>
-                    <div class="icon-tile course-icon">🎮</div>
+                    <div class="icon-tile course-icon"> 🎮 </div>
                     <h3>Roblox Studio</h3>
                     <p>Моделирование и создание игр в Roblox Studio</p>
                     <div class="course-footer">
@@ -228,15 +236,541 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- ===== Модальные окна с программами курсов ===== -->
-    <!-- id: scratchModal, scratchJrModal, advancedScratchModal, scratchGamesModal, NeironModal
-         Разметка каждой:  <div id="..." class="modal">
-                             <div class="modal-content">
-                               <span class="close" onclick="close...Modal()">&times;</span>
-                               <h2>...</h2>  <p>...</p>  <h3>Урок N</h3> <ul>/<ol>...</ul>
-                             </div>
-                           </div>
-         Тексты уроков не менялись — см. файл целиком (строки 231–584). -->
+    <!-- Modal for Scratch -->
+    <div id="scratchModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeScratchModal()">&times;</span>
+            <h2>Scratch - Программа курса</h2>
+            <p>Курс разработан для освоения каждого типа блоков через практику, понимание их назначения и осознанное использование.</p>
+            
+            <h3>Урок 1: События (Events)</h3>
+            <p><strong>Цель:</strong> Научиться запускать программы по разным триггерам.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>когда щёлкнут по зелёному флагу</li>
+                <li>когда нажата клавиша</li>
+                <li>когда щёлкнут по спрайту</li>
+                <li>когда получено сообщение → отправить сообщение</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать интерактивную сценку:</p>
+            <ul>
+                <li>При нажатии на зелёный флаг — солнце выходит</li>
+                <li>При клике по облаку — идёт дождь</li>
+                <li>При нажатии пробела — появляется радуга (через сообщение)</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Программа не всегда начинается с зелёного флага — она может реагировать на действия!</p>
+
+            <h3>Урок 2: Движение (Motion)</h3>
+            <p><strong>Цель:</strong> Освоить управление положением и направлением спрайта.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>двигаться на … шагов</li>
+                <li>повернуть направо/налево</li>
+                <li>идти в x: y:</li>
+                <li>направиться к [спрайт]</li>
+                <li>оттолкнуться от края</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать лабиринт:</p>
+            <ul>
+                <li>Спрайт (герой) двигается стрелками</li>
+                <li>Не может проходить сквозь стены (используем если касается стены — оттолкнуться)</li>
+                <li>Добирается до финиша — появляется надпись «Победа!»</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Движение — это не только «вперёд», но и точное позиционирование и ориентация.</p>
+
+            <h3>Урок 3: Внешность (Looks)</h3>
+            <p><strong>Цель:</strong> Научиться управлять внешним видом спрайта и сценой.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>сказать … в течение … сек</li>
+                <li>сменить костюм</li>
+                <li>перейти к следующему костюму</li>
+                <li>установить размер</li>
+                <li>показать / спрятать</li>
+                <li>сделать надпись на сцене (через спрайт-текст)</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать интерактивную историю:</p>
+            <ul>
+                <li>Персонаж рассказывает историю (через сказать)</li>
+                <li>Меняет костюмы (рад → грустен → удивлён)</li>
+                <li>В нужный момент появляется/исчезает второй персонаж</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Внешность — это как «театр»: костюмы, реплики, появление и исчезновение.</p>
+
+            <h3>Урок 4: Звук (Sound)</h3>
+            <p><strong>Цель:</strong> Добавить звуковое сопровождение к проекту.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>играть звук …</li>
+                <li>играть звук … и ждать</li>
+                <li>остановить все звуки</li>
+                <li>изменить громкость</li>
+                <li>выбрать инструмент (для музыкальных проектов)</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать музыкальный инструмент:</p>
+            <ul>
+                <li>Каждая цифровая клавиша (1, 2, 3, 4…) играет разный звук</li>
+                <li>Можно изменять громкость колёсиком мыши или слайдером</li>
+                <li>Добавить режим «автоматического воспроизведения мелодии»</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Звук делает проект живым — он может быть реакцией, фоном или основой игры.</p>
+
+            <h3>Урок 5: Управление (Control)</h3>
+            <p><strong>Цель:</strong> Научиться управлять логикой выполнения программы.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>повторять …</li>
+                <li>навсегда</li>
+                <li>если … то</li>
+                <li>ждать … секунд</li>
+                <li>создать клон → когда я начинаю как клон</li>
+                <li>остановить [этот скрипт / всё]</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать метеоритный дождь:</p>
+            <ul>
+                <li>Наверху появляются клоны метеоритов через создать клон</li>
+                <li>Каждый клон падает вниз (изменять y)</li>
+                <li>При касании земли — исчезает</li>
+                <li>Используется цикл навсегда и если</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Управление — это «мозг» программы: кто, когда и сколько раз что делает.</p>
+
+            <h3>Урок 6: Сенсоры (Sensing)</h3>
+            <p><strong>Цель:</strong> Научиться «чувствовать» окружение.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>касается [спрайт/цвет/мышь]?</li>
+                <li>цвет … касается …?</li>
+                <li>расстояние до [спрайт]</li>
+                <li>спросить … и ждать</li>
+                <li>ответ</li>
+                <li>мышь нажата?</li>
+                <li>координаты мыши</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать викторину:</p>
+            <ul>
+                <li>Спрашивает имя</li>
+                <li>Проверяет ответ (если &lt;ответ = [Париж]&gt; то …)</li>
+                <li>Дополнительно: герой следует за мышью (идти к [мышка v])</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Сенсоры — это «органы чувств» спрайта: он видит, слышит (через ответы) и ощущает касания.</p>
+
+            <h3>Урок 7: Операторы (Operators)</h3>
+            <p><strong>Цель:</strong> Научиться работать с числами, текстом и логикой.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>Арифметика: +, -, *, /</li>
+                <li>Сравнение: >, &lt;, =</li>
+                <li>Логика: и, или, не</li>
+                <li>Случайное число</li>
+                <li>Объединение строк («Привет, » + имя)</li>
+                <li>Округление, модуль и др.</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать калькулятор удачи:</p>
+            <ul>
+                <li>Спрашивает имя</li>
+                <li>Генерирует случайное число от 1 до 100</li>
+                <li>сказать (объединить [Твоя удача: ] (случайное от 1 до 100))</li>
+                <li>Если > 80 — говорит «Ты везунчик!»</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Операторы — это «математика и логика» внутри Scratch.</p>
+
+            <h3>Урок 8: Данные (Data) — Переменные и списки</h3>
+            <p><strong>Цель:</strong> Научиться хранить и использовать информацию.</p>
+            <p><strong>Изучаемые блоки:</strong></p>
+            <ul>
+                <li>создать переменную</li>
+                <li>установить [x] в …</li>
+                <li>изменить [x] на …</li>
+                <li>показать / спрятать переменную</li>
+                <li>создать список</li>
+                <li>добавить … к [список]</li>
+                <li>элемент [1] списка</li>
+            </ul>
+            <p><strong>Практика:</strong> Создать дневник желаний:</p>
+            <ul>
+                <li>Программа спрашивает: «Что ты хочешь?»</li>
+                <li>Добавляет ответ в список «Желания»</li>
+                <li>В конце показывает весь список: сказать (объединить [Твои желания: ] (список Желания))</li>
+            </ul>
+            <p><strong>Ключевая идея:</strong> Переменные — это память программы. Списки — это «коробки с многими записками».</p>
+        </div>
+    </div>
+
+    <!-- Modal for ScratchJr -->
+    <div id="scratchJrModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeScratchJrModal()">&times;</span>
+            <h2>Scratch Jnr - Программа курса</h2>
+            <p>Курс разработан для детей 6-8 лет, которые только начинают свой путь в программировании. Все уроки построены в игровой форме с использованием визуальных блоков.</p>
+            
+            <h3>Урок 1. Знакомство со ScratchJr</h3>
+            <ul>
+                <li>Что такое ScratchJr и зачем он нужен</li>
+                <li>Обзор интерфейса: сцена, персонажи, блоки команд</li>
+                <li>Простое перемещение персонажа вправо/влево</li>
+                <li>Игровая практика: «Помоги коту дойти до миски с молоком!»</li>
+            </ul>
+
+            <h3>Урок 2. Циклы (повторение действий)</h3>
+            <ul>
+                <li>Знакомство с блоком «повторить»</li>
+                <li>Практика: персонаж танцует, рисует узор, ходит по квадрату</li>
+                <li>Игра: «Собери 3 звезды, повторяя путь»</li>
+                <li>Изучение остальных блоков из оранжевой вкладки</li>
+            </ul>
+
+            <h3>Урок 3. Внешний вид персонажа</h3>
+            <ul>
+                <li>Что такое внешний вид</li>
+                <li>Составление простой цепочки команд: привет → увеличение → уменьшение</li>
+                <li>Создание короткой анимации-истории</li>
+                <li>Игровая практика: Увеличение персонажа с помощью цикла (из урока 2)</li>
+            </ul>
+
+            <h3>Урок 4. События и запуск по кнопке</h3>
+            <ul>
+                <li>Блок «когда нажат флажок» и «когда коснуто»</li>
+                <li>Создание интерактивной сцены: персонаж реагирует на касание</li>
+                <li>Мини-проект: интерактивная открытка</li>
+            </ul>
+
+            <h3>Урок 5. Звуки и эмоции</h3>
+            <ul>
+                <li>Добавление звуков и голосов</li>
+                <li>Меняем выражение лица персонажа</li>
+                <li>Создание короткого диалога между двумя героями</li>
+                <li>Введение понятия «сообщения» между персонажами</li>
+            </ul>
+
+            <h3>Урок 6. Условия и выбор (упрощённо)</h3>
+            <ul>
+                <li>Использование блока «если коснётся»</li>
+                <li>Игровая логика: «если коснёшься монстра — проиграл!»</li>
+                <li>Создание простой игры с правилами</li>
+                <li>Ввод условной логики в детской форме</li>
+            </ul>
+
+            <h3>Урок 7. Работа с фонами и сценами</h3>
+            <ul>
+                <li>Смена фона по команде</li>
+                <li>Создание истории из 2–3 сцен</li>
+                <li>«Путешествие героя»: лес → город → замок</li>
+                <li>Развитие повествовательного мышления и структуры проекта</li>
+            </ul>
+
+            <h3>Урок 8. Итоговый проект</h3>
+            <ul>
+                <li>Дети самостоятельно создают мини-историю или игру</li>
+                <li>Используют всё изученное: циклы, события, звуки, смену фона</li>
+                <li>Презентация проектов перед группой</li>
+                <li>Обратная связь и похвала</li>
+            </ul>
+        </div>
+    </div>
+
+    <!-- Modal for Advanced Scratch -->
+    <div id="advancedScratchModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeAdvancedScratchModal()">&times;</span>
+            <h2>Scratch продвинутый - Программа курса</h2>
+            <p>Расширенные возможности программирования, сложные проекты и алгоритмы с использованием дополнительных расширений.</p>
+            
+            <h3>🔹 Урок 1: Музыкальный синтезатор</h3>
+            <p><strong>Расширение:</strong> Музыка</p>
+            <p><strong>Цель:</strong> Научиться создавать музыку в Scratch.</p>
+            <p><strong>Проект:</strong> Виртуальный синтезатор — при нажатии клавиш (A, S, D, F) звучат разные ноты.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Использование инструментов и барабанов</li>
+                <li>Настройка темпа и громкости</li>
+                <li>Добавление зацикленной мелодии</li>
+            </ul>
+            <p><strong>Блоки:</strong> играть ноту, выбрать инструмент, изменить темп</p>
+
+            <h3>🔹 Урок 2: Рисующий холст</h3>
+            <p><strong>Расширение:</strong> Перо</p>
+            <p><strong>Цель:</strong> Научиться рисовать в Scratch.</p>
+            <p><strong>Проект:</strong> Интерактивный рисунок — спрайт рисует узоры при движении мыши.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Использование опустить перо, поднять перо, очистить</li>
+                <li>Рисование спиралей, цветов, узоров</li>
+                <li>Добавление выбора цвета</li>
+            </ul>
+            <p><strong>Блоки:</strong> опустить перо, установить цвет пера, очистить</p>
+
+            <h3>🔹 Урок 3: Жестовое управление</h3>
+            <p><strong>Расширение:</strong> Видео распознавание</p>
+            <p><strong>Цель:</strong> Управлять проектом с помощью движений.</p>
+            <p><strong>Проект:</strong> “Поймай движением” — игрок управляет спрайтом, двигаясь перед камерой.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Отслеживание движения влево/вправо</li>
+                <li>Реакция на быстрые движения</li>
+                <li>Сбор предметов с помощью жестов</li>
+            </ul>
+            <p><strong>Блоки:</strong> движение камеры, направление движения</p>
+
+            <h3>🔹 Урок 4: Эмоциональный персонаж</h3>
+            <p><strong>Расширение:</strong> Face Sensing</p>
+            <p><strong>Цель:</strong> Реагировать на выражения лица.</p>
+            <p><strong>Проект:</strong> “Эмоциональный питомец” — спрайт радуется при улыбке, грустит при хмуром взгляде.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Использование улыбка?, моргание?, выражение лица</li>
+                <li>Анимация спрайта по эмоции</li>
+                <li>Звук при смене настроения</li>
+            </ul>
+            <p><strong>Блоки:</strong> улыбка?, грусть?, направление головы</p>
+
+            <h3>🔹 Урок 5: Говорящий персонаж</h3>
+            <p><strong>Расширение:</strong> Текст в речь</p>
+            <p><strong>Цель:</strong> Озвучивать текст в проекте.</p>
+            <p><strong>Проект:</strong> “Говорящая энциклопедия” — при клике на предмет, он описывает себя.</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Выбор голоса и языка</li>
+                <li>Озвучка фраз и ответов</li>
+                <li>Синхронизация с анимацией</li>
+            </ul>
+            <p><strong>Блоки:</strong> произнести, произнести и ждать, установить голос</p>
+
+            <h3>🔹 Урок 6: Твои блоки — твой стиль!</h3>
+            <p><strong>Тема:</strong> Создание и использование собственных блоков</p>
+            <p><strong>Цель:</strong> Научиться создавать пользовательские блоки и использовать их в проектах.</p>
+            <p><strong>Проект:</strong> “Мой уникальный помощник” — спрайт, который выполняет действия по твоим блокам (например, “приветствовать”, “танцевать”, “перевести слово”).</p>
+            <p><strong>Практика:</strong></p>
+            <ul>
+                <li>Создание пользовательского блока (через "Мои блоки" → "Создать блок")</li>
+                <li>Например: сказать привет, запустить музыку, перевести слово</li>
+                <li>Добавление параметров (число, текст, булево значение)</li>
+                <li>Например: скажи [текст] с голосом [голос]</li>
+                <li>Использование блоков в проекте</li>
+                <li>Создать меню с кнопками, каждая вызывает свой блок</li>
+                <li>Оптимизация кода — замена повторяющихся блоков на свои</li>
+            </ul>
+
+            <h3>🔹 Итоговый проект</h3>
+            <p>Самостоятельное создание комплексного проекта с использованием всех изученных расширений и пользовательских блоков.</p>
+        </div>
+    </div>
+
+    <!-- Modal for Scratch Games -->
+    <div id="scratchGamesModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeScratchGamesModal()">&times;</span>
+            <h2>Scratch игры - Программа курса</h2>
+            <p>Программа обучения по Scratch: 7 игр</p>
+            
+            <h3>1. Змейка</h3>
+            <h3>2. Крокодил</h3>
+            <h3>3. Космос</h3>
+            <h3>4. Динозавр</h3>
+            <h3>5. Платформер</h3>
+            <h3>6. Стрелялка</h3>
+            <h3>7. Танчики</h3>
+        </div>
+    </div>
+
+
+    <div id="NeironModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeNeironModal()">&times;</span>
+            <h2>Нейросети - Программа курса</h2>
+            <p>Программа обучения по Нейросетям: 7 уроков</p>
+            
+            <h3>1. Знакомство с нейросетями</h3>
+            <h3>2. Генерация изображений</h3>
+            <h3>3. Создание сказки/рассказа</h3>
+            <h3>4. Создание сайта</h3>
+            <h3>5. Создание игры "Прыгай через краторы"</h3>
+            <h3>6. Создание игры "Футбол"</h3>
+            <h3>7. Создание легкой игры по просьбе ученика</h3>
+        </div>
+    </div>
 
     <!-- iOS-уведомление -->
     <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+    <script>
+        /* ---------- Тема: светлая / тёмная ---------- */
+        const root = document.documentElement;
+        const themeBtn = document.getElementById('themeToggle');
+        const themeIcon = themeBtn.querySelector('i');
+
+        function syncThemeIcon() {
+            const dark = root.dataset.theme === 'dark';
+            themeIcon.className = dark ? 'fas fa-sun' : 'fas fa-moon';
+            themeBtn.setAttribute('aria-label', dark ? 'Включить светлую тему' : 'Включить тёмную тему');
+        }
+        syncThemeIcon();
+
+        themeBtn.addEventListener('click', () => {
+            const dark = root.dataset.theme === 'dark';
+            root.dataset.theme = dark ? 'light' : 'dark';
+            try { localStorage.setItem('vlabs-theme', root.dataset.theme); } catch (e) {}
+            syncThemeIcon();
+        });
+
+        /* ---------- Плавный скролл по якорям ---------- */
+        document.querySelectorAll('a[href^="#"]').forEach(function (anchor) {
+            anchor.addEventListener('click', function (e) {
+                const href = this.getAttribute('href');
+                if (href.length < 2) { e.preventDefault(); return; }
+                const target = document.querySelector(href);
+                if (!target) return;
+                e.preventDefault();
+                target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+            });
+        });
+
+        /* ---------- Появление блоков при скролле (+ страховка) ---------- */
+        function revealInView() {
+            document.querySelectorAll('[data-reveal]:not(.is-visible)').forEach(function (el) {
+                const rect = el.getBoundingClientRect();
+                // блок попал в экран (или почти) — показываем
+                if (rect.top < window.innerHeight && rect.bottom > -50) {
+                    el.classList.add('is-visible');
+                }
+            });
+        }
+
+        if (document.documentElement.classList.contains('js-reveal')) {
+            const revealObserver = new IntersectionObserver(function (entries) {
+                entries.forEach(function (entry) {
+                    if (entry.isIntersecting) {
+                        const el = entry.target;
+                        el.classList.add('is-visible');
+                        revealObserver.unobserve(el);
+                        // задержка нужна только для «волны» появления
+                        setTimeout(function () { el.style.transitionDelay = ''; }, 1400);
+                    }
+                });
+            }, { threshold: 0.05, rootMargin: '0px 0px -6% 0px' });
+
+            document.querySelectorAll('[data-reveal]').forEach(function (el) {
+                const siblings = Array.from(el.parentElement.children).filter(function (c) {
+                    return c.hasAttribute('data-reveal');
+                });
+                el.style.transitionDelay = Math.min(siblings.indexOf(el), 8) * 80 + 'ms';
+                revealObserver.observe(el);
+            });
+
+            // Страховка: если observer по какой-то причине не сработал,
+            // показываем всё, что в зоне видимости, и в худшем случае — вообще всё.
+            window.addEventListener('scroll', revealInView, { passive: true });
+            window.addEventListener('resize', revealInView);
+            window.addEventListener('load', revealInView);
+            setInterval(revealInView, 800);
+            setTimeout(revealInView, 300);
+            setTimeout(function () {                     // финальный предохранитель
+                document.querySelectorAll('[data-reveal]').forEach(function (el) {
+                    el.classList.add('is-visible');
+                });
+            }, 10000);
+        }
+
+        /* ---------- Навигация и кнопка «наверх» ---------- */
+        const nav = document.getElementById('nav');
+        const scrollTopBtn = document.getElementById('scrollToTop');
+
+        function onScroll() {
+            nav.classList.toggle('scrolled', window.pageYOffset > 12);
+            scrollTopBtn.classList.toggle('visible', window.pageYOffset > 400);
+        }
+        window.addEventListener('scroll', onScroll, { passive: true });
+        onScroll();
+
+        scrollTopBtn.addEventListener('click', function () {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        });
+
+        /* ---------- Модальные окна ---------- */
+        function openModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.classList.add('open');
+            document.body.classList.add('modal-open');
+        }
+
+        function closeModal(id) {
+            const modal = document.getElementById(id);
+            if (!modal) return;
+            modal.classList.remove('open');
+            if (!document.querySelector('.modal.open')) {
+                document.body.classList.remove('modal-open');
+            }
+        }
+
+        function openScratchModal() { openModal('scratchModal'); }
+        function closeScratchModal() { closeModal('scratchModal'); }
+        function openScratchJrModal() { openModal('scratchJrModal'); }
+        function closeScratchJrModal() { closeModal('scratchJrModal'); }
+        function openAdvancedScratchModal() { openModal('advancedScratchModal'); }
+        function closeAdvancedScratchModal() { closeModal('advancedScratchModal'); }
+        function openScratchGamesModal() { openModal('scratchGamesModal'); }
+        function closeScratchGamesModal() { closeModal('scratchGamesModal'); }
+        function openNeironModal() { openModal('NeironModal'); }
+        function closeNeironModal() { closeModal('NeironModal'); }
+
+        document.querySelectorAll('.modal .close').forEach(function (btn) {
+            btn.addEventListener('click', function () {
+                closeModal(btn.closest('.modal').id);
+            });
+        });
+
+        window.addEventListener('click', function (event) {
+            if (event.target.classList && event.target.classList.contains('modal')) {
+                closeModal(event.target.id);
+            }
+        });
+
+        document.addEventListener('keydown', function (event) {
+            if (event.key === 'Escape') {
+                document.querySelectorAll('.modal.open').forEach(function (modal) {
+                    closeModal(modal.id);
+                });
+            }
+        });
+
+        /* ---------- Тосты ---------- */
+        let toastTimer;
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toastTimer);
+            toastTimer = setTimeout(function () { toast.classList.remove('show'); }, 3200);
+        }
+
+        document.querySelectorAll('.course-card .btn-sm').forEach(function (btn) {
+            const isPlaceholder = btn.getAttribute('href') === '#' && !btn.hasAttribute('onclick');
+            if (!isPlaceholder) return;
+            btn.addEventListener('click', function (e) {
+                e.preventDefault();
+                showToast('Программа этого курса появится совсем скоро ✨');
+            });
+        });
+
+        /* ---------- «Живой» блик на стекле (iOS 26) ---------- */
+        if (window.matchMedia('(hover: hover)').matches) {
+            document.querySelectorAll('.glass').forEach(function (surface) {
+                surface.addEventListener('pointermove', function (e) {
+                    const rect = surface.getBoundingClientRect();
+                    surface.style.setProperty('--mx', ((e.clientX - rect.left) / rect.width * 100).toFixed(1) + '%');
+                    surface.style.setProperty('--my', ((e.clientY - rect.top) / rect.height * 100).toFixed(1) + '%');
+                });
+                surface.addEventListener('pointerleave', function () {
+                    surface.style.removeProperty('--mx');
+                    surface.style.removeProperty('--my');
+                });
+            });
+        }
+
+        /* ---------- Год в футере ---------- */
+        const yearEl = document.getElementById('year');
+        if (yearEl) yearEl.textContent = new Date().getFullYear();
+    </script>
+</body>
+</html>
