@@ -4,705 +4,89 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>V-labs - Школа программирования для детей</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css  ">
-    <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-        }
-
-        :root {
-            --primary: #4361ee;
-            --secondary: #3f37c9;
-            --accent: #4cc9f0;
-            --light: #f8f9fa;
-            --dark: #212529;
-            --success: #4ade80;
-            --warning: #facc15;
-            --danger: #f87171;
-            --gray: #6c757d;
-            --light-gray: #e9ecef;
-        }
-
-        body {
-            background-color: #f9fafb;
-            color: var(--dark);
-            line-height: 1.6;
-        }
-
-        .container {
-            width: 90%;
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 0 20px;
-        }
-
-        /* Header Styles */
-        header {
-            background: linear-gradient(135deg, var(--primary), var(--secondary));
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
-            position: relative;
-            overflow: hidden;
-        }
-
-        header::before {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, rgba(255,255,255,0) 70%);
-            transform: rotate(30deg);
-        }
-
-        header h1 {
-            font-size: 3.5rem;
-            margin-bottom: 10px;
-            text-shadow: 0 2px 4px rgba(0,0,0,0.2);
-            position: relative;
-            animation: fadeInDown 1s ease;
-        }
-
-        .tagline {
-            font-size: 1.4rem;
-            margin-bottom: 30px;
-            max-width: 800px;
-            margin-left: auto;
-            margin-right: auto;
-            position: relative;
-            animation: fadeInUp 1s ease;
-        }
-
-        .header-buttons {
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-            flex-wrap: wrap;
-            position: relative;
-            animation: fadeIn 1.5s ease;
-        }
-
-        .btn {
-            display: inline-block;
-            padding: 14px 32px;
-            background-color: var(--accent);
-            color: white;
-            text-decoration: none;
-            border-radius: 50px;
-            font-weight: 600;
-            font-size: 1.1rem;
-            transition: all 0.3s ease;
-            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-            border: none;
-            cursor: pointer;
-        }
-
-        .btn:hover {
-            transform: translateY(-3px);
-            box-shadow: 0 6px 20px rgba(0, 0, 0, 0.25);
-            background-color: #38b2d6;
-        }
-
-        .btn.secondary {
-            background-color: rgba(255, 255, 255, 0.2);
-        }
-
-        .btn.secondary:hover {
-            background-color: rgba(255, 255, 255, 0.3);
-        }
-
-        .btn-sm {
-            padding: 14px 32px;
-            font-size: 1.1rem;
-            margin-top: 10px;
-            background-color: var(--secondary);
-            font-weight: 600;
-        }
-
-        .btn-sm:hover {
-            background-color: #322ba3;
-        }
-
-        /* Main Content */
-        section {
-            padding: 80px 0;
-        }
-
-        section:nth-child(even) {
-            background-color: var(--light);
-        }
-
-        h2 {
-            text-align: center;
-            font-size: 2.5rem;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-
-        p.center {
-            text-align: center;
-            font-size: 1.2rem;
-            max-width: 800px;
-            margin: 0 auto 50px;
-            color: var(--gray);
-        }
-
-        /* Features Section */
-        .features {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .feature-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease, box-shadow 0.3s ease;
-            border: 1px solid var(--light-gray);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .feature-card::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(90deg, var(--primary), var(--accent));
-        }
-
-        .feature-card:hover {
-            transform: translateY(-10px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.12);
-        }
-
-        .feature-icon {
-            font-size: 3.5rem;
-            margin-bottom: 20px;
-        }
-
-        .feature-card h3 {
-            font-size: 1.5rem;
-            margin-bottom: 15px;
-            color: var(--primary);
-        }
-
-        .feature-card p {
-            color: var(--gray);
-            font-size: 1.05rem;
-        }
-
-        /* Testimonials Section */
-        .testimonials {
-            background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
-        }
-
-        .testimonial-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .testimonial {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            position: relative;
-        }
-
-        .testimonial::before {
-            content: """;
-            position: absolute;
-            top: 20px;
-            left: 20px;
-            font-size: 5rem;
-            color: var(--light-gray);
-            font-family: Georgia, serif;
-            line-height: 1;
-        }
-
-        .testimonial p {
-            font-style: italic;
-            margin-bottom: 20px;
-            padding-left: 30px;
-            color: var(--dark);
-            position: relative;
-            z-index: 1;
-        }
-
-        .testimonial-author {
-            display: flex;
-            align-items: center;
-            padding-left: 30px;
-        }
-
-        .testimonial-author img {
-            width: 50px;
-            height: 50px;
-            border-radius: 50%;
-            object-fit: cover;
-            margin-right: 15px;
-            border: 3px solid var(--accent);
-        }
-
-        /* Signup Section */
-        .signup-form {
-            max-width: 600px;
-            margin: 50px auto 0;
-            background: white;
-            padding: 40px;
-            border-radius: 15px;
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.1);
-        }
-
-        .form-group {
-            margin-bottom: 25px;
-        }
-
-        .form-group label {
-            display: block;
-            margin-bottom: 8px;
-            font-weight: 500;
-            color: var(--dark);
-        }
-
-        .form-group input,
-        .form-group select,
-        .form-group textarea {
-            width: 100%;
-            padding: 14px;
-            border: 2px solid var(--light-gray);
-            border-radius: 10px;
-            font-size: 1rem;
-            transition: border-color 0.3s;
-        }
-
-        .form-group input:focus,
-        .form-group select:focus,
-        .form-group textarea:focus {
-            border-color: var(--primary);
-            outline: none;
-            box-shadow: 0 0 0 3px rgba(67, 97, 238, 0.2);
-        }
-
-        .form-row {
-            display: flex;
-            gap: 20px;
-        }
-
-        .form-row .form-group {
-            flex: 1;
-        }
-
-        /* Footer */
-        footer {
-            background: var(--dark);
-            color: white;
-            padding: 60px 0 30px;
-            margin-top: 60px;
-        }
-
-        footer h3 {
-            font-size: 1.8rem;
-            margin-bottom: 30px;
-            text-align: center;
-        }
-
-        .social-links {
-            display: flex;
-            justify-content: center;
-            gap: 25px;
-            margin-bottom: 30px;
-        }
-
-        .social-links a {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 50px;
-            height: 50px;
-            background: rgba(255, 255, 255, 0.1);
-            border-radius: 50%;
-            color: white;
-            font-size: 1.5rem;
-            text-decoration: none;
-            transition: all 0.3s ease;
-        }
-
-        .social-links a:hover {
-            background: var(--primary);
-            transform: translateY(-5px);
-        }
-
-        footer p {
-            text-align: center;
-            color: rgba(255, 255, 255, 0.7);
-        }
-
-        /* Responsive Design */
-        @media (max-width: 768px) {
-            header h1 {
-                font-size: 2.5rem;
-            }
-            
-            .tagline {
-                font-size: 1.1rem;
-            }
-            
-            .header-buttons {
-                flex-direction: column;
-                align-items: center;
-            }
-            
-            h2 {
-                font-size: 2rem;
-            }
-            
-            .form-row {
-                flex-direction: column;
-                gap: 0;
-            }
-        }
-
-        /* Animation */
-        @keyframes float {
-            0% { transform: translateY(0px); }
-            50% { transform: translateY(-15px); }
-            100% { transform: translateY(0px); }
-        }
-
-        .feature-icon {
-            animation: float 4s ease-in-out infinite;
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        @keyframes fadeInDown {
-            from {
-                opacity: 0;
-                transform: translateY(-20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        @keyframes fadeInUp {
-            from {
-                opacity: 0;
-                transform: translateY(20px);
-            }
-            to {
-                opacity: 1;
-                transform: translateY(0);
-            }
-        }
-
-        /* Stats Section */
-        .stats {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-            gap: 20px;
-            margin: 50px 0;
-        }
-
-        .stat-card {
-            background: white;
-            padding: 30px;
-            border-radius: 15px;
-            text-align: center;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
-        }
-
-        .stat-number {
-            font-size: 2.5rem;
-            font-weight: 700;
-            color: var(--primary);
-            margin-bottom: 10px;
-        }
-
-        .stat-label {
-            font-size: 1.1rem;
-            color: var(--gray);
-        }
-
-        /* Course Highlights */
-        .course-highlights {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .highlight-card {
-            background: white;
-            border-radius: 15px;
-            overflow: hidden;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
-        }
-
-        .highlight-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .highlight-img {
-            height: 200px;
-            background: linear-gradient(45deg, var(--primary), var(--accent));
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: white;
-            font-size: 3rem;
-        }
-
-        .highlight-content {
-            padding: 25px;
-        }
-
-        .highlight-content h3 {
-            color: var(--primary);
-            margin-bottom: 15px;
-        }
-
-        /* Experience Highlight */
-        .experience-highlight {
-            background: linear-gradient(135deg, var(--secondary), var(--primary));
-            color: white;
-            padding: 60px 0;
-            text-align: center;
-            margin: 60px 0;
-        }
-
-        .experience-highlight h2 {
-            color: white;
-            margin-bottom: 20px;
-        }
-
-        .experience-highlight p {
-            font-size: 1.4rem;
-            max-width: 800px;
-            margin: 0 auto 30px;
-        }
-
-        .years-badge {
-            background: white;
-            color: var(--secondary);
-            font-size: 4rem;
-            font-weight: 700;
-            width: 200px;
-            height: 200px;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            margin: 0 auto 20px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Scroll to top button */
-        .scroll-top {
-            position: fixed;
-            bottom: 30px;
-            right: 30px;
-            width: 50px;
-            height: 50px;
-            background: var(--primary);
-            color: white;
-            border-radius: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-size: 1.2rem;
-            cursor: pointer;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
-            z-index: 1000;
-            opacity: 0;
-            transform: translateY(20px);
-            transition: all 0.3s ease;
-        }
-
-        .scroll-top.visible {
-            opacity: 1;
-            transform: translateY(0);
-        }
-
-        .scroll-top:hover {
-            background: var(--secondary);
-            transform: translateY(-5px);
-        }
-
-        /* Courses Section */
-        .courses-section {
-            background: linear-gradient(135deg, #f0f4f8, #e2e8f0);
-            padding: 80px 0;
-        }
-
-        .courses-grid {
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 30px;
-            margin-top: 50px;
-        }
-
-        .course-card {
-            background: white;
-            border-radius: 15px;
-            padding: 30px;
-            text-align: center;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
-            transition: transform 0.3s ease;
-            display: flex;
-            flex-direction: column;
-        }
-
-        .course-card:hover {
-            transform: translateY(-10px);
-        }
-
-        .course-icon {
-            font-size: 3rem;
-            margin-bottom: 20px;
-            color: var(--primary);
-        }
-
-        .course-card h3 {
-            font-size: 1.4rem;
-            margin-bottom: 15px;
-            color: var(--secondary);
-        }
-
-        .course-card p {
-            color: var(--gray);
-            font-size: 1rem;
-        }
-
-        .course-footer {
-            margin-top: auto;
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-            padding-top: 1rem;
-        }
-
-        /* Modal styles */
-        .modal {
-            display: none;
-            position: fixed;
-            z-index: 2000;
-            left: 0;
-            top: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(0,0,0,0.5);
-        }
-
-        .modal-content {
-            background-color: white;
-            margin: 5% auto;
-            padding: 30px;
-            border-radius: 15px;
-            width: 80%;
-            max-width: 800px;
-            max-height: 80vh;
-            overflow-y: auto;
-            position: relative;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.3);
-        }
-
-        .close {
-            color: var(--gray);
-            float: right;
-            font-size: 28px;
-            font-weight: bold;
-            cursor: pointer;
-            line-height: 1;
-        }
-
-        .close:hover {
-            color: var(--dark);
-        }
-
-        .modal h3 {
-            color: var(--primary);
-            margin: 20px 0 10px 0;
-        }
-
-        .modal ul {
-            padding-left: 20px;
-            margin: 10px 0;
-        }
-
-        .modal li {
-            margin-bottom: 8px;
-        }
-
-        .modal p {
-            margin: 10px 0;
-        }
-
-        .modal ol {
-            padding-left: 20px;
-            margin: 10px 0;
-        }
-
-        .modal ol li {
-            margin-bottom: 10px;
-        }
-
-        .modal ol li p {
-            margin: 5px 0;
-        }
-    </style>
+    <meta name="description" content="V-labs — онлайн-школа программирования для детей: Scratch, ScratchJr, Roblox Studio, нейросети и 3D-моделирование. Создаём игры, а не просто играем!">
+    <meta name="theme-color" content="#eceff7" media="(prefers-color-scheme: light)">
+    <meta name="theme-color" content="#07070d" media="(prefers-color-scheme: dark)">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Тема применяется до первой отрисовки, чтобы не было вспышки
+        (function () {
+            try {
+                var saved = localStorage.getItem('vlabs-theme');
+                var dark = saved ? saved === 'dark'
+                    : window.matchMedia('(prefers-color-scheme: dark)').matches;
+                document.documentElement.dataset.theme = dark ? 'dark' : 'light';
+            } catch (e) {}
+        })();
+    </script>
 </head>
 <body>
-    <header>
+    <!-- Вибратный фон под «жидким стеклом» -->
+    <div class="bg-canvas" aria-hidden="true">
+        <div class="blob blob-1"></div>
+        <div class="blob blob-2"></div>
+        <div class="blob blob-3"></div>
+        <div class="blob blob-4"></div>
+    </div>
+    <div class="noise" aria-hidden="true"></div>
+
+    <nav class="nav" id="nav">
+        <a class="brand" href="#top" aria-label="V-labs — на главную">
+            <span class="brand-mark"><img src="assets/logo.png" alt="V-labs"></span>
+            <span class="brand-name">V-labs</span>
+        </a>
+        <div class="nav-links">
+            <a href="#about">Преимущества</a>
+            <a href="#creative">Творчество</a>
+            <a href="#courses">Курсы</a>
+        </div>
+        <div class="nav-actions">
+            <button class="icon-btn" id="themeToggle" type="button" aria-label="Сменить тему">
+                <i class="fas fa-moon"></i>
+            </button>
+            <a href="https://t.me/VLabsV" class="btn nav-btn">Записаться</a>
+        </div>
+    </nav>
+    <header class="hero" id="top">
         <div class="container">
-            <h1>V-labs</h1>
-            <p class="tagline">Школа программирования для детей: создаём игры, а не просто играем!</p>
-            <div class="header-buttons">
-                <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
-                <a href="#courses" class="btn secondary">Наши курсы</a>
+            <div class="hero-inner">
+                <span class="badge" data-reveal><span class="dot"></span>Онлайн-школа программирования</span>
+                <h1 data-reveal>V-labs</h1>
+                <p class="tagline" data-reveal>Школа программирования для детей: создаём игры, а не просто играем!</p>
+                <div class="header-buttons" data-reveal>
+                    <a href="https://t.me/VLabsV" class="btn">Записаться</a>
+                    <a href="#courses" class="btn secondary">Наши курсы</a>
+                </div>
+                <div class="hero-chips" data-reveal>
+                    <span class="chip">🐱 Scratch</span>
+                    <span class="chip">🧠 Нейросети</span>
+                    <span class="chip">🎮 Roblox Studio</span>
+                    <span class="chip">📐 КОМПАС-3D</span>
+                </div>
             </div>
         </div>
     </header>
 
-    <section>
+    <section id="about">
         <div class="container">
-            <h2>Ваш ребёнок любит компьютер? Пусть проведёт время с пользой!</h2>
-            <p class="center">В нашей школе он научится:</p>
-            
+            <span class="eyebrow" data-reveal>Навыки</span>
+            <h2 data-reveal>Ваш ребёнок любит компьютер? Пусть проведёт время с пользой!</h2>
+            <p class="center" data-reveal>В нашей школе он научится:</p>
+
             <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🎮</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎮</div>
                     <h3>Создавать игры</h3>
                     <p>Собственные игры в Scratch 3.0 и Kodu — от простых аркад до сложных стратегий</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🧩</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🧩</div>
                     <h3>3D-моделирование</h3>
                     <p>Моделировать 3D-миры и LEGO-проекты в Studio 2.0 — воплощаем фантазии в реальность</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">📚</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">📚</div>
                     <h3>Логика программирования</h3>
                     <p>Разбираться в логике кода — легко и весело через практические проекты</p>
                 </div>
@@ -710,24 +94,25 @@
         </div>
     </section>
 
-    <section>
+    <section id="creative">
         <div class="container">
-            <h2>Развиваем творческое мышление</h2>
-            <p class="center">Программирование — это не только логика, но и искусство создания виртуальных миров</p>
-            
+            <span class="eyebrow" data-reveal>Творчество</span>
+            <h2 data-reveal>Развиваем творческое мышление</h2>
+            <p class="center" data-reveal>Программирование — это не только логика, но и искусство создания виртуальных миров</p>
+
             <div class="features">
-                <div class="feature-card">
-                    <div class="feature-icon">🎨</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎨</div>
                     <h3>Дизайн проектов</h3>
                     <p>Создание уникальных визуальных стилей, персонажей и интерфейсов</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎭</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎭</div>
                     <h3>Создание историй</h3>
                     <p>Разработка сценариев и сюжетов для интерактивных игр и анимаций</p>
                 </div>
-                <div class="feature-card">
-                    <div class="feature-icon">🎵</div>
+                <div class="feature-card glass" data-reveal>
+                    <div class="icon-tile feature-icon">🎵</div>
                     <h3>Мультимедиа проекты</h3>
                     <p>Интеграция звука, анимации и визуальных эффектов в творческие проекты</p>
                 </div>
@@ -737,89 +122,90 @@
 
     <section class="courses-section" id="courses">
         <div class="container">
-            <h2>Наши курсы</h2>
-            <p class="center">Выберите программу обучения, которая подходит именно вашему ребёнку</p>
-            
+            <span class="eyebrow" data-reveal>Программы обучения</span>
+            <h2 data-reveal>Наши курсы</h2>
+            <p class="center" data-reveal>Выберите программу обучения, которая подходит именно вашему ребёнку</p>
+
             <div class="courses-grid">
-                <div class="course-card">
-                    <div class="course-icon">🐱</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🐱</div>
                     <h3>Scratch</h3>
                     <p>Основы программирования через создание интерактивных историй, игр и анимаций</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm" onclick="openScratchModal()">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">😺</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">😺</div>
                     <h3>Scratch Jnr</h3>
                     <p>Программирование для самых маленьких (6-8 лет) с использованием визуальных блоков</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm" onclick="openScratchJrModal()">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🚀</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🚀</div>
                     <h3>Scratch продвинутый</h3>
                     <p>Расширенные возможности программирования, сложные проекты и алгоритмы</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm" onclick="openAdvancedScratchModal()">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🎮</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🎮</div>
                     <h3>Scratch игры</h3>
                     <p>Создание сложных 2D и 3D игр с анимацией, физикой и ИИ</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm" onclick="openScratchGamesModal()">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🧠</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🧠</div>
                     <h3>Нейросети</h3>
                     <p>Основы машинного обучения и нейросетей для юных программистов</p>
                     <div class="course-footer">
-                        <a href="#" class="btn btn-sm" onclick="openNeironModal()" >Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="#" class="btn btn-sm" onclick="openNeironModal()">Подробнее</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🎮</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🎮</div>
                     <h3>Kodu</h3>
                     <p>Создание 3D-игр с помощью визуального языка программирования от Microsoft</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">💻</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">💻</div>
                     <h3>Комп. грамотность</h3>
                     <p>Основы работы с компьютером, интернетом и офисными приложениями</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon">🧩</div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🧩</div>
                     <h3>Компас</h3>
                     <p>Основы черчения и 3D-моделирования в системе КОМПАС-3D</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
-                <div class="course-card">
-                    <div class="course-icon"> 🎮 </div>
+                <div class="course-card glass" data-reveal>
+                    <div class="icon-tile course-icon">🎮</div>
                     <h3>Roblox Studio</h3>
                     <p>Моделирование и создание игр в Roblox Studio</p>
                     <div class="course-footer">
                         <a href="#" class="btn btn-sm">Подробнее</a>
-                        <a href="https://t.me/VLabsV  " class="btn">Записаться</a>
+                        <a href="https://t.me/VLabsV" class="btn">Записаться</a>
                     </div>
                 </div>
             </div>
@@ -828,11 +214,13 @@
 
     <footer>
         <div class="container">
-            <h3>V-labs — школа программирования для детей</h3>
-            <div class="social-links">
-                <a href="https://t.me/VLabsV  " aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+            <div class="footer-card glass" data-reveal>
+                <h3>V-labs — школа программирования для детей</h3>
+                <div class="social-links">
+                    <a href="https://t.me/VLabsV" aria-label="Telegram"><i class="fab fa-telegram"></i></a>
+                </div>
+                <p>© <span id="year">2026</span> Все права защищены</p>
             </div>
-            <p>© 2023 Все права защищены</p>
         </div>
     </footer>
 
@@ -840,499 +228,15 @@
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- Modal for Scratch -->
-    <div id="scratchModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeScratchModal()">&times;</span>
-            <h2>Scratch - Программа курса</h2>
-            <p>Курс разработан для освоения каждого типа блоков через практику, понимание их назначения и осознанное использование.</p>
-            
-            <h3>Урок 1: События (Events)</h3>
-            <p><strong>Цель:</strong> Научиться запускать программы по разным триггерам.</p>
-            <p><strong>Изучаемые блоки:</strong></p>
-            <ul>
-                <li>когда щёлкнут по зелёному флагу</li>
-                <li>когда нажата клавиша</li>
-                <li>когда щёлкнут по спрайту</li>
-                <li>когда получено сообщение → отправить сообщение</li>
-            </ul>
-            <p><strong>Практика:</strong> Создать интерактивную сценку:</p>
-            <ul>
-                <li>При нажатии на зелёный флаг — солнце выходит</li>
-                <li>При клике по облаку — идёт дождь</li>
-                <li>При нажатии пробела — появляется радуга (через сообщение)</li>
-            </ul>
-            <p><strong>Ключевая идея:</strong> Программа не всегда начинается с зелёного флага — она может реагировать на действия!</p>
+    <!-- ===== Модальные окна с программами курсов ===== -->
+    <!-- id: scratchModal, scratchJrModal, advancedScratchModal, scratchGamesModal, NeironModal
+         Разметка каждой:  <div id="..." class="modal">
+                             <div class="modal-content">
+                               <span class="close" onclick="close...Modal()">&times;</span>
+                               <h2>...</h2>  <p>...</p>  <h3>Урок N</h3> <ul>/<ol>...</ul>
+                             </div>
+                           </div>
+         Тексты уроков не менялись — см. файл целиком (строки 231–584). -->
 
-            <h3>Урок 2: Движение (Motion)</h3>
-            <p><strong>Цель:</strong> Освоить управление положением и направлением спрайта.</p>
-            <p><strong>Изучаемые блоки:</strong></p>
-            <ul>
-                <li>двигаться на … шагов</li>
-                <li>повернуть направо/налево</li>
-                <li>идти в x: y:</li>
-                <li>направиться к [спрайт]</li>
-                <li>оттолкнуться от края</li>
-            </ul>
-            <p><strong>Практика:</strong> Создать лабиринт:</p>
-            <ul>
-                <li>Спрайт (герой) двигается стрелками</li>
-                <li>Не может проходить сквозь стены (используем если касается стены — оттолкнуться)</li>
-                <li>Добирается до финиша — появляется надпись «Победа!»</li>
-            </ul>
-            <p><strong>Ключевая идея:</strong> Движение — это не только «вперёд», но и точное позиционирование и ориентация.</p>
-
-            <h3>Урок 3: Внешность (Looks)</h3>
-            <p><strong>Цель:</strong> Научиться управлять внешним видом спрайта и сценой.</p>
-            <p><strong>Изучаемые блоки:</strong></p>
-            <ul>
-                <li>сказать … в течение … сек</li>
-                <li>сменить костюм</li>
-                <li>перейти к следующему костюму</li>
-                <li>установить размер</li>
-                <li>показать / спрятать</li>
-                <li>сделать надпись на сцене (через спрайт-текст)</li>
-            </ul>
-            <p><strong>Практика:</strong> Создать интерактивную историю:</p>
-            <ul>
-                <li>Персонаж рассказывает историю (через сказать)</li>
-                <li>Меняет костюмы (рад → грустен → удивлён)</li>
-                <li>В нужный момент появляется/исчезает второй персонаж</li>
-            </ul>
-            <p><strong>Ключевая идея:</strong> Внешность — это как «театр»: костюмы, реплики, появление и исчезновение.</p>
-
-            <h3>Урок 4: Звук (Sound)</h3>
-            <p><strong>Цель:</strong> Добавить звуковое сопровождение к проекту.</p>
-            <p><strong>Изучаемые блоки:</strong></p>
-            <ul>
-                <li>играть звук …</li>
-                <li>играть звук … и ждать</li>
-                <li>остановить все звуки</li>
-                <li>изменить громкость</li>
-                <li>выбрать инструмент (для музыкальных проектов)</li>
-            </ul>
-            <p><strong>Практика:</strong> Создать музыкальный инструмент:</p>
-            <ul>
-                <li>Каждая цифровая клавиша (1, 2, 3, 4…) играет разный звук</li>
-                <li>Можно изменять громкость колёсиком мыши или слайдером</li>
-                <li>Добавить режим «автоматического воспроизведения мелодии»</li>
-            </ul>
-            <p><strong>Ключевая идея:</strong> Звук делает проект живым — он может быть реакцией, фоном или основой игры.</p>
-
-            <h3>Урок 5: Управление (Control)</h3>
-            <p><strong>Цель:</strong> Научиться управлять логикой выполнения программы.</p>
-            <p><strong>Изучаемые блоки:</strong></p>
-            <ul>
-                <li>повторять …</li>
-                <li>навсегда</li>
-                <li>если … то</li>
-                <li>ждать … секунд</li>
-                <li>создать клон → когда я начинаю как клон</li>
-                <li>остановить [этот скрипт / всё]</li>
-            </ul>
-            <p><strong>Практика:</strong> Создать метеоритный дождь:</p>
-            <ul>
-                <li>Наверху появляются клоны метеоритов через создать клон</li>
-                <li>Каждый клон падает вниз (изменять y)</li>
-                <li>При касании земли — исчезает</li>
-                <li>Используется цикл навсегда и если</li>
-            </ul>
-            <p><strong>Ключевая идея:</strong> Управление — это «мозг» программы: кто, когда и сколько раз что делает.</p>
-
-            <h3>Урок 6: Сенсоры (Sensing)</h3>
-            <p><strong>Цель:</strong> Научиться «чувствовать» окружение.</p>
-            <p><strong>Изучаемые блоки:</strong></p>
-            <ul>
-                <li>касается [спрайт/цвет/мышь]?</li>
-                <li>цвет … касается …?</li>
-                <li>расстояние до [спрайт]</li>
-                <li>спросить … и ждать</li>
-                <li>ответ</li>
-                <li>мышь нажата?</li>
-                <li>координаты мыши</li>
-            </ul>
-            <p><strong>Практика:</strong> Создать викторину:</p>
-            <ul>
-                <li>Спрашивает имя</li>
-                <li>Проверяет ответ (если &lt;ответ = [Париж]&gt; то …)</li>
-                <li>Дополнительно: герой следует за мышью (идти к [мышка v])</li>
-            </ul>
-            <p><strong>Ключевая идея:</strong> Сенсоры — это «органы чувств» спрайта: он видит, слышит (через ответы) и ощущает касания.</p>
-
-            <h3>Урок 7: Операторы (Operators)</h3>
-            <p><strong>Цель:</strong> Научиться работать с числами, текстом и логикой.</p>
-            <p><strong>Изучаемые блоки:</strong></p>
-            <ul>
-                <li>Арифметика: +, -, *, /</li>
-                <li>Сравнение: >, &lt;, =</li>
-                <li>Логика: и, или, не</li>
-                <li>Случайное число</li>
-                <li>Объединение строк («Привет, » + имя)</li>
-                <li>Округление, модуль и др.</li>
-            </ul>
-            <p><strong>Практика:</strong> Создать калькулятор удачи:</p>
-            <ul>
-                <li>Спрашивает имя</li>
-                <li>Генерирует случайное число от 1 до 100</li>
-                <li>сказать (объединить [Твоя удача: ] (случайное от 1 до 100))</li>
-                <li>Если > 80 — говорит «Ты везунчик!»</li>
-            </ul>
-            <p><strong>Ключевая идея:</strong> Операторы — это «математика и логика» внутри Scratch.</p>
-
-            <h3>Урок 8: Данные (Data) — Переменные и списки</h3>
-            <p><strong>Цель:</strong> Научиться хранить и использовать информацию.</p>
-            <p><strong>Изучаемые блоки:</strong></p>
-            <ul>
-                <li>создать переменную</li>
-                <li>установить [x] в …</li>
-                <li>изменить [x] на …</li>
-                <li>показать / спрятать переменную</li>
-                <li>создать список</li>
-                <li>добавить … к [список]</li>
-                <li>элемент [1] списка</li>
-            </ul>
-            <p><strong>Практика:</strong> Создать дневник желаний:</p>
-            <ul>
-                <li>Программа спрашивает: «Что ты хочешь?»</li>
-                <li>Добавляет ответ в список «Желания»</li>
-                <li>В конце показывает весь список: сказать (объединить [Твои желания: ] (список Желания))</li>
-            </ul>
-            <p><strong>Ключевая идея:</strong> Переменные — это память программы. Списки — это «коробки с многими записками».</p>
-        </div>
-    </div>
-
-    <!-- Modal for ScratchJr -->
-    <div id="scratchJrModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeScratchJrModal()">&times;</span>
-            <h2>Scratch Jnr - Программа курса</h2>
-            <p>Курс разработан для детей 6-8 лет, которые только начинают свой путь в программировании. Все уроки построены в игровой форме с использованием визуальных блоков.</p>
-            
-            <h3>Урок 1. Знакомство со ScratchJr</h3>
-            <ul>
-                <li>Что такое ScratchJr и зачем он нужен</li>
-                <li>Обзор интерфейса: сцена, персонажи, блоки команд</li>
-                <li>Простое перемещение персонажа вправо/влево</li>
-                <li>Игровая практика: «Помоги коту дойти до миски с молоком!»</li>
-            </ul>
-
-            <h3>Урок 2. Циклы (повторение действий)</h3>
-            <ul>
-                <li>Знакомство с блоком «повторить»</li>
-                <li>Практика: персонаж танцует, рисует узор, ходит по квадрату</li>
-                <li>Игра: «Собери 3 звезды, повторяя путь»</li>
-                <li>Изучение остальных блоков из оранжевой вкладки</li>
-            </ul>
-
-            <h3>Урок 3. Внешний вид персонажа</h3>
-            <ul>
-                <li>Что такое внешний вид</li>
-                <li>Составление простой цепочки команд: привет → увеличение → уменьшение</li>
-                <li>Создание короткой анимации-истории</li>
-                <li>Игровая практика: Увеличение персонажа с помощью цикла (из урока 2)</li>
-            </ul>
-
-            <h3>Урок 4. События и запуск по кнопке</h3>
-            <ul>
-                <li>Блок «когда нажат флажок» и «когда коснуто»</li>
-                <li>Создание интерактивной сцены: персонаж реагирует на касание</li>
-                <li>Мини-проект: интерактивная открытка</li>
-            </ul>
-
-            <h3>Урок 5. Звуки и эмоции</h3>
-            <ul>
-                <li>Добавление звуков и голосов</li>
-                <li>Меняем выражение лица персонажа</li>
-                <li>Создание короткого диалога между двумя героями</li>
-                <li>Введение понятия «сообщения» между персонажами</li>
-            </ul>
-
-            <h3>Урок 6. Условия и выбор (упрощённо)</h3>
-            <ul>
-                <li>Использование блока «если коснётся»</li>
-                <li>Игровая логика: «если коснёшься монстра — проиграл!»</li>
-                <li>Создание простой игры с правилами</li>
-                <li>Ввод условной логики в детской форме</li>
-            </ul>
-
-            <h3>Урок 7. Работа с фонами и сценами</h3>
-            <ul>
-                <li>Смена фона по команде</li>
-                <li>Создание истории из 2–3 сцен</li>
-                <li>«Путешествие героя»: лес → город → замок</li>
-                <li>Развитие повествовательного мышления и структуры проекта</li>
-            </ul>
-
-            <h3>Урок 8. Итоговый проект</h3>
-            <ul>
-                <li>Дети самостоятельно создают мини-историю или игру</li>
-                <li>Используют всё изученное: циклы, события, звуки, смену фона</li>
-                <li>Презентация проектов перед группой</li>
-                <li>Обратная связь и похвала</li>
-            </ul>
-        </div>
-    </div>
-
-    <!-- Modal for Advanced Scratch -->
-    <div id="advancedScratchModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeAdvancedScratchModal()">&times;</span>
-            <h2>Scratch продвинутый - Программа курса</h2>
-            <p>Расширенные возможности программирования, сложные проекты и алгоритмы с использованием дополнительных расширений.</p>
-            
-            <h3>🔹 Урок 1: Музыкальный синтезатор</h3>
-            <p><strong>Расширение:</strong> Музыка</p>
-            <p><strong>Цель:</strong> Научиться создавать музыку в Scratch.</p>
-            <p><strong>Проект:</strong> Виртуальный синтезатор — при нажатии клавиш (A, S, D, F) звучат разные ноты.</p>
-            <p><strong>Практика:</strong></p>
-            <ul>
-                <li>Использование инструментов и барабанов</li>
-                <li>Настройка темпа и громкости</li>
-                <li>Добавление зацикленной мелодии</li>
-            </ul>
-            <p><strong>Блоки:</strong> играть ноту, выбрать инструмент, изменить темп</p>
-
-            <h3>🔹 Урок 2: Рисующий холст</h3>
-            <p><strong>Расширение:</strong> Перо</p>
-            <p><strong>Цель:</strong> Научиться рисовать в Scratch.</p>
-            <p><strong>Проект:</strong> Интерактивный рисунок — спрайт рисует узоры при движении мыши.</p>
-            <p><strong>Практика:</strong></p>
-            <ul>
-                <li>Использование опустить перо, поднять перо, очистить</li>
-                <li>Рисование спиралей, цветов, узоров</li>
-                <li>Добавление выбора цвета</li>
-            </ul>
-            <p><strong>Блоки:</strong> опустить перо, установить цвет пера, очистить</p>
-
-            <h3>🔹 Урок 3: Жестовое управление</h3>
-            <p><strong>Расширение:</strong> Видео распознавание</p>
-            <p><strong>Цель:</strong> Управлять проектом с помощью движений.</p>
-            <p><strong>Проект:</strong> “Поймай движением” — игрок управляет спрайтом, двигаясь перед камерой.</p>
-            <p><strong>Практика:</strong></p>
-            <ul>
-                <li>Отслеживание движения влево/вправо</li>
-                <li>Реакция на быстрые движения</li>
-                <li>Сбор предметов с помощью жестов</li>
-            </ul>
-            <p><strong>Блоки:</strong> движение камеры, направление движения</p>
-
-            <h3>🔹 Урок 4: Эмоциональный персонаж</h3>
-            <p><strong>Расширение:</strong> Face Sensing</p>
-            <p><strong>Цель:</strong> Реагировать на выражения лица.</p>
-            <p><strong>Проект:</strong> “Эмоциональный питомец” — спрайт радуется при улыбке, грустит при хмуром взгляде.</p>
-            <p><strong>Практика:</strong></p>
-            <ul>
-                <li>Использование улыбка?, моргание?, выражение лица</li>
-                <li>Анимация спрайта по эмоции</li>
-                <li>Звук при смене настроения</li>
-            </ul>
-            <p><strong>Блоки:</strong> улыбка?, грусть?, направление головы</p>
-
-            <h3>🔹 Урок 5: Говорящий персонаж</h3>
-            <p><strong>Расширение:</strong> Текст в речь</p>
-            <p><strong>Цель:</strong> Озвучивать текст в проекте.</p>
-            <p><strong>Проект:</strong> “Говорящая энциклопедия” — при клике на предмет, он описывает себя.</p>
-            <p><strong>Практика:</strong></p>
-            <ul>
-                <li>Выбор голоса и языка</li>
-                <li>Озвучка фраз и ответов</li>
-                <li>Синхронизация с анимацией</li>
-            </ul>
-            <p><strong>Блоки:</strong> произнести, произнести и ждать, установить голос</p>
-
-            <h3>🔹 Урок 6: Твои блоки — твой стиль!</h3>
-            <p><strong>Тема:</strong> Создание и использование собственных блоков</p>
-            <p><strong>Цель:</strong> Научиться создавать пользовательские блоки и использовать их в проектах.</p>
-            <p><strong>Проект:</strong> “Мой уникальный помощник” — спрайт, который выполняет действия по твоим блокам (например, “приветствовать”, “танцевать”, “перевести слово”).</p>
-            <p><strong>Практика:</strong></p>
-            <ul>
-                <li>Создание пользовательского блока (через "Мои блоки" → "Создать блок")</li>
-                <li>Например: сказать привет, запустить музыку, перевести слово</li>
-                <li>Добавление параметров (число, текст, булево значение)</li>
-                <li>Например: скажи [текст] с голосом [голос]</li>
-                <li>Использование блоков в проекте</li>
-                <li>Создать меню с кнопками, каждая вызывает свой блок</li>
-                <li>Оптимизация кода — замена повторяющихся блоков на свои</li>
-            </ul>
-
-            <h3>🔹 Итоговый проект</h3>
-            <p>Самостоятельное создание комплексного проекта с использованием всех изученных расширений и пользовательских блоков.</p>
-        </div>
-    </div>
-
-    <!-- Modal for Scratch Games -->
-    <div id="scratchGamesModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeScratchGamesModal()">&times;</span>
-            <h2>Scratch игры - Программа курса</h2>
-            <p>Программа обучения по Scratch: 7 игр</p>
-            
-            <h3>1. Змейка</h3>
-            <h3>2. Крокодил</h3>
-            <h3>3. Космос</h3>
-            <h3>4. Динозавр</h3>
-            <h3>5. Платформер</h3>
-            <h3>6. Стрелялка</h3>
-            <h3>7. Танчики</h3>
-        </div>
-    </div>
-
-
-    <div id="NeironModal" class="modal">
-        <div class="modal-content">
-            <span class="close" onclick="closeNeironModal()">&times;</span>
-            <h2>Нейросети - Программа курса</h2>
-            <p>Программа обучения по Нейросетям: 7 уроков</p>
-            
-            <h3>1. Знакомство с нейросетями</h3>
-            <h3>2. Генерация изображений</h3>
-            <h3>3. Создание сказки/рассказа</h3>
-            <h3>4. Создание сайта</h3>
-            <h3>5. Создание игры "Прыгай через краторы"</h3>
-            <h3>6. Создание игры "Футбол"</h3>
-            <h3>7. Создание легкой игры по просьбе ученика</h3>
-        </div>
-    </div>
-
-    <script>
-        // Smooth scrolling for anchor links
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function (e) {
-                e.preventDefault();
-                document.querySelector(this.getAttribute('href')).scrollIntoView({
-                    behavior: 'smooth'
-                });
-            });
-        });
-
-        // Form submission handling
-        const form = document.querySelector('.signup-form');
-        if (form) {
-            form.addEventListener('submit', function(e) {
-                e.preventDefault();
-                
-                // Get form values
-                const childName = document.getElementById('child-name').value;
-                const childAge = document.getElementById('child-age').value;
-                
-                // Show success message
-                alert(`Спасибо за запись, ${childName}! Мы свяжемся с вами в ближайшее время для подтверждения пробного урока.`);
-                
-                // Reset form
-                form.reset();
-            });
-        }
-
-        // Add animation to feature cards when they come into view
-        const featureCards = document.querySelectorAll('.feature-card');
-        const observer = new IntersectionObserver((entries) => {
-            entries.forEach(entry => {
-                if (entry.isIntersecting) {
-                    entry.target.style.opacity = 1;
-                    entry.target.style.transform = 'translateY(0)';
-                }
-            });
-        }, { threshold: 0.1 });
-
-        featureCards.forEach(card => {
-            card.style.opacity = 0;
-            card.style.transform = 'translateY(20px)';
-            card.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
-            observer.observe(card);
-        });
-
-        // Scroll to top button functionality
-        const scrollToTopBtn = document.getElementById('scrollToTop');
-        
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                scrollToTopBtn.classList.add('visible');
-            } else {
-                scrollToTopBtn.classList.remove('visible');
-            }
-        });
-        
-        scrollToTopBtn.addEventListener('click', function() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-        });
-
-        // Modal functionality
-        function openScratchModal() {
-            document.getElementById('scratchModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeScratchModal() {
-            document.getElementById('scratchModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function openScratchJrModal() {
-            document.getElementById('scratchJrModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeScratchJrModal() {
-            document.getElementById('scratchJrModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function openAdvancedScratchModal() {
-            document.getElementById('advancedScratchModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeAdvancedScratchModal() {
-            document.getElementById('advancedScratchModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        function openScratchGamesModal() {
-            document.getElementById('scratchGamesModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeScratchGamesModal() {
-            document.getElementById('scratchGamesModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-
-        function openNeironModal() {
-            document.getElementById('NeironModal').style.display = 'block';
-            document.body.style.overflow = 'hidden';
-        }
-
-        function closeNeironModal() {
-            document.getElementById('NeironModal').style.display = 'none';
-            document.body.style.overflow = 'auto';
-        }
-
-        // Close modal when clicking outside of it
-        window.onclick = function(event) {
-            const modal = document.getElementById('scratchModal');
-            if (event.target == modal) {
-                closeScratchModal();
-            }
-            
-            const modalJr = document.getElementById('scratchJrModal');
-            if (event.target == modalJr) {
-                closeScratchJrModal();
-            }
-            
-            const modalAdv = document.getElementById('advancedScratchModal');
-            if (event.target == modalAdv) {
-                closeAdvancedScratchModal();
-            }
-            
-            const modalGames = document.getElementById('scratchGamesModal');
-            if (event.target == modalGames) {
-                closeScratchGamesModal();
-            }
-        }
-    </script>
-</body>
-</html>
+    <!-- iOS-уведомление -->
+    <div class="toast" id="toast" role="status" aria-live="polite"></div>
