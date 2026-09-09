@@ -1008,8 +1008,12 @@ body.modal-open {
 
 /* --------------------------------------------------------------------------
    15. Появление при скролле
+   ВАЖНО: скрываем блоки ТОЛЬКО если JS сам добавил класс js-reveal
+   (то есть анимация гарантированно поддерживается). Иначе — без JS, без
+   IntersectionObserver, при prefers-reduced-motion или любой ошибке скрипта
+   весь контент (курсы, секции, карточки) остаётся полностью видимым.
    -------------------------------------------------------------------------- */
-[data-reveal] {
+html.js-reveal [data-reveal] {
     opacity: 0;
     transform: translateY(30px) scale(0.985);
     filter: blur(6px);
@@ -1017,7 +1021,7 @@ body.modal-open {
         filter 0.85s var(--ease);
 }
 
-[data-reveal].is-visible {
+html.js-reveal [data-reveal].is-visible {
     opacity: 1;
     transform: none;
     filter: none;
@@ -1094,7 +1098,7 @@ body.modal-open {
         scroll-behavior: auto !important;
     }
 
-    [data-reveal] {
+    html.js-reveal [data-reveal] {
         opacity: 1;
         transform: none;
         filter: none;
